@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CeProMin | Argentine Mining Strategic Foresight Center</title>
+    <meta
+      name="description"
+      content="CeProMin is a strategic platform to measure, anticipate, and guide mining development in Argentina with a federal and sustainability-focused vision."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-grid" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="brand">
+        <img src="logo.png" alt="CeProMin logo" class="brand-logo" />
+      </div>
+      <div class="header-meta">
+        <span id="currentDate" class="chip"></span>
+        <span class="chip chip-alert">Strategic Foresight Portal</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Argentine Mining Strategic Foresight Center</p>
+        <h1>Global markets define mineral demand. Strategy defines what Argentina should mine.</h1>
+        <p>
+          CeProMin is designed as the intelligence architecture that translates demand
+          signals from global value chains into differentiated mineral policy, investment
+          priorities, and coordinated federal execution.
+        </p>
+      </section>
+
+      <section class="ticker" aria-label="Strategic priorities ticker">
+        <div class="ticker-track" id="tickerTrack"></div>
+      </section>
+
+      <section class="developments">
+        <div class="section-title-row">
+          <h2>Strategic Logic</h2>
+          <span class="subtle">Demand-led mining model</span>
+        </div>
+        <div id="flowSteps" class="flow-grid" aria-live="polite"></div>
+      </section>
+
+      <section>
+        <div class="section-title-row">
+          <h2>Market Demand to Mineral Priorities</h2>
+          <span class="subtle">Filter by demand cluster</span>
+        </div>
+
+        <section class="news-controls" aria-label="Filter demand clusters">
+          <button class="filter-btn active" data-filter="all">All clusters</button>
+          <button class="filter-btn" data-filter="electrification">Electrification</button>
+          <button class="filter-btn" data-filter="technology">Technology and defense</button>
+          <button class="filter-btn" data-filter="financial">Financial demand</button>
+          <button class="filter-btn" data-filter="agrochemical">Agrochemical demand</button>
+        </section>
+
+        <div class="news-grid" id="newsGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="developments">
+        <div class="section-title-row">
+          <h2>Strategic Gaps CeProMin Addresses</h2>
+          <span class="subtle">Current constraints in Argentina</span>
+        </div>
+        <ul id="diagnosisList" class="developments-list"></ul>
+      </section>
+
+      <section class="framework-grid" aria-label="Core strategic framework">
+        <article class="framework-card">
+          <h3>Measure</h3>
+          <ul id="functionsList" class="flat-list"></ul>
+        </article>
+        <article class="framework-card">
+          <h3>Anticipate</h3>
+          <ul id="impactList" class="flat-list"></ul>
+        </article>
+        <article class="framework-card">
+          <h3>Guide</h3>
+          <ul id="architectureList" class="flat-list"></ul>
+        </article>
+      </section>
+
+      <section class="framework-grid" aria-label="Execution and outcomes framework">
+        <article class="framework-card">
+          <h3>Expected Strategic Impact</h3>
+          <ul id="outcomesList" class="flat-list"></ul>
+        </article>
+        <article class="framework-card">
+          <h3>Institutional Execution Model</h3>
+          <ul id="governanceList" class="flat-list"></ul>
+        </article>
+      </section>
+
+      <section class="developments">
+        <div class="section-title-row">
+          <h2>Programme Director</h2>
+          <span class="subtle">Leadership profile</span>
+        </div>
+        <p id="directorProfile" class="director-profile"></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        CeProMin concept portal aligned to a demand-led strategic model: markets generate
+        mineral demand, and mineral demand should shape extraction strategy and policy.
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

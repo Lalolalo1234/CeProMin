@@ -1,0 +1,9 @@
+services:
+  cepro-min-portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cepro-min-portal
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
