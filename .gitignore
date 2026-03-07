@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Temporary Office files
+~$*
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.*
+
+# Build artifacts
+dist/
+build/
+
+# Dependency directories
+node_modules/
+
+# IDE
+.vscode/settings.json
