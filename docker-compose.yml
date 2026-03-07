@@ -1,9 +1,12 @@
+name: cepromin
+
 services:
-  cepro-min-portal:
+  cepromin:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cepro-min-portal
+    image: cepromin:latest
+    container_name: cepromin
     ports:
       - "8080:8080"
     restart: unless-stopped
