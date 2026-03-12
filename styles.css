@@ -51,6 +51,11 @@ main,
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow: var(--shadow);
+  position: sticky;
+  top: 0.75rem;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .brand {
