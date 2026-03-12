@@ -195,7 +195,7 @@ async function fetchMiningNews() {
     timestamp.textContent =
       "Updated " +
       new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-  } catch (err) {
+  } catch {
     liveFeed.innerHTML = `<div class="feed-error">Unable to load live feed — check back shortly.</div>`;
     timestamp.textContent = "";
   }

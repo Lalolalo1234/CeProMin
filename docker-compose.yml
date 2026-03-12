@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     image: cepromin:latest
-    container_name: cepromin
     ports:
       - "8080:8080"
     restart: unless-stopped
