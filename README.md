@@ -59,3 +59,8 @@ docker compose down
 
 - App routes are served with SPA fallback (`try_files ... /index.html`).
 - Static JS/CSS assets are configured with short cache headers in Nginx.
+- Live mining news is loaded from `reporteminero.cl` through the public Codetabs proxy to avoid CORS restrictions. Availability and response format of this external source are outside this repository's control.
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE`.
