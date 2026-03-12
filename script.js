@@ -121,6 +121,88 @@ const tickerItems = [
   "Federal execution builds long-term reliability"
 ];
 
+// ── Live Mining News ────────────────────────────────────────────
+
+const REPORTE_MINERO_URL = "https://www.reporteminero.cl/";
+// codetabs proxy returns the page HTML directly as text (no JSON wrapper)
+const PROXY_BASE = "https://api.codetabs.com/v1/proxy?quest=";
+const REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// Extract YYYY and MM from a /noticia/…/YYYY/MM/slug URL
+function dateFromNoticia(href) {
+  const m = href.match(/\/noticia\/[^/]+\/(\d{4})\/(\d{2})\//);
+  if (!m) return "";
+  const d = new Date(`${m[1]}-${m[2]}-01`);
+  return isNaN(d) ? "" : d.toLocaleDateString(undefined, { year: "numeric", month: "short" });
+}
+
+function parseReporteMineroItems(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = new Set();
+  const items = [];
+
+  doc.querySelectorAll("a[href]").forEach((a) => {
+    const href = a.getAttribute("href") || "";
+    // Only article links; resolve relative URLs
+    const fullHref = href.startsWith("http") ? href : `https://www.reporteminero.cl${href}`;
+    if (!/\/noticia\//.test(fullHref)) return;
+    if (seen.has(fullHref)) return;
+
+    const title = a.textContent.trim().replace(/\s+/g, " ");
+    if (title.length < 20) return; // skip icon-only or nav links
+
+    seen.add(fullHref);
+    items.push({ title, link: fullHref, date: dateFromNoticia(fullHref) });
+  });
+
+  return items.slice(0, 8);
+}
+
+function renderFeedItems(items) {
+  return items
+    .map(
+      (item) => `
+      <a class="feed-item" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
+        <p class="feed-item-title">${escapeHtml(item.title)}</p>
+        <span class="feed-item-source">Reporte Minero</span>
+        <span class="feed-item-date">${escapeHtml(item.date)}</span>
+      </a>
+    `
+    )
+    .join("");
+}
+
+async function fetchMiningNews() {
+  const liveFeed = document.getElementById("liveFeed");
+  const timestamp = document.getElementById("newsFeedTimestamp");
+
+  try {
+    const res = await fetch(PROXY_BASE + encodeURIComponent(REPORTE_MINERO_URL));
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+    const items = parseReporteMineroItems(html);
+    if (items.length === 0) throw new Error("No items found");
+
+    liveFeed.innerHTML = renderFeedItems(items);
+    timestamp.textContent =
+      "Updated " +
+      new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  } catch (err) {
+    liveFeed.innerHTML = `<div class="feed-error">Unable to load live feed — check back shortly.</div>`;
+    timestamp.textContent = "";
+  }
+}
+
+// ── End Live Mining News ─────────────────────────────────────────
+
 const directorProfile =
   "Juan Eduardo Barrera holds a PhD in Mining Engineering from the Polytechnic University of Madrid, a UNEP diploma, and has more than 30 years of experience with organizations including the World Bank, IDB, UN, EBRD, and the EU, combining mining policy leadership, project finance, and international strategic advisory work.";
 
@@ -210,3 +292,6 @@ renderList(architectureList, guidePillar);
 renderList(outcomesList, outcomes);
 renderList(governanceList, governance);
 directorProfileNode.textContent = directorProfile;
+
+fetchMiningNews();
+setInterval(fetchMiningNews, REFRESH_INTERVAL_MS);
