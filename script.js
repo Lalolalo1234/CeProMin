@@ -146,9 +146,14 @@ function escapeHtml(str) {
 // Extract YYYY and MM from a /noticia/…/YYYY/MM/slug URL
 function dateFromNoticia(href) {
   const m = href.match(/\/noticia\/[^/]+\/(\d{4})\/(\d{2})\//);
-  if (!m) return "";
+  if (!m) return null;
   const d = new Date(`${m[1]}-${m[2]}-01`);
-  return isNaN(d) ? "" : d.toLocaleDateString(undefined, { year: "numeric", month: "short" });
+  return isNaN(d) ? null : d.getTime();
+}
+
+function formatDateTs(ts) {
+  if (!ts) return "";
+  return new Date(ts).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
 function parseReporteMineroItems(html) {
@@ -167,7 +172,8 @@ function parseReporteMineroItems(html) {
     if (title.length < 20) return; // skip icon-only or nav links
 
     seen.add(fullHref);
-    items.push({ title, link: fullHref, date: dateFromNoticia(fullHref) });
+    const ts = dateFromNoticia(fullHref);
+    items.push({ title, link: fullHref, date: ts ? formatDateTs(ts) : "", timestamp: ts });
   });
 
   return items.slice(0, 8);
@@ -189,7 +195,27 @@ function parseGenericItems(html, baseHost) {
     if (title.length < 20) return;
 
     seen.add(fullHref);
-    items.push({ title, link: fullHref, date: "" });
+    // Attempt to infer date from URL or nearby elements
+    let ts = null;
+    const urlDate = fullHref.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//) || fullHref.match(/\/(\d{4})\/(\d{2})\//);
+    if (urlDate) {
+      const y = urlDate[1];
+      const m = urlDate[2] || "01";
+      const d = urlDate[3] || "01";
+      const dt = new Date(`${y}-${m}-${d}`);
+      if (!isNaN(dt)) ts = dt.getTime();
+    }
+
+    if (!ts) {
+      const article = a.closest("article");
+      const timeEl = article && article.querySelector("time");
+      if (timeEl) {
+        const dt = new Date(timeEl.getAttribute("datetime") || timeEl.textContent);
+        if (!isNaN(dt)) ts = dt.getTime();
+      }
+    }
+
+    items.push({ title, link: fullHref, date: ts ? formatDateTs(ts) : "", timestamp: ts });
   });
 
   return items.slice(0, 8);
@@ -235,20 +261,123 @@ async function fetchFeed(feedId) {
   }
 }
 
+// Combined feed state and pagination
+let combinedItems = [];
+const ITEMS_PER_PAGE = 10;
+let currentCombinedPage = 1;
+
+async function fetchAllFeeds() {
+  const liveFeed = document.getElementById("liveFeed");
+  const timestamp = document.getElementById("newsFeedTimestamp");
+  try {
+    const promises = FEEDS.map((feed) =>
+      fetch(PROXY_BASE + encodeURIComponent(feed.url))
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.text().then((html) => ({ feed, html }));
+        })
+        .catch((err) => {
+          console.warn(`Failed to fetch ${feed.url}`, err);
+          return { feed, html: "" };
+        })
+    );
+
+    const results = await Promise.all(promises);
+    const all = [];
+    results.forEach(({ feed, html }) => {
+      let items = [];
+      if (!html) return;
+      if (feed.id === "reporte") items = parseReporteMineroItems(html);
+      else items = parseGenericItems(html, feed.url);
+      items.forEach((it) => (it.source = feed.label || feed.name));
+      all.push(...items);
+    });
+
+    // Normalize timestamp (treat missing as 0) and sort newest-first
+    combinedItems = all
+      .map((it) => ({
+        title: it.title,
+        link: it.link,
+        source: it.source,
+        date: it.date || "",
+        timestamp: it.timestamp || 0
+      }))
+      .sort((a, b) => b.timestamp - a.timestamp);
+
+    currentCombinedPage = 1;
+    renderCombinedPage(currentCombinedPage);
+    timestamp.textContent =
+      "Updated " + new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  } catch (err) {
+    console.warn(err);
+    liveFeed.innerHTML = `<div class="feed-error">Unable to load combined feed — check back shortly.</div>`;
+    timestamp.textContent = "";
+  }
+}
+
+function renderCombinedPage(page) {
+  const liveFeed = document.getElementById("liveFeed");
+  const pagination = document.getElementById("feedPagination");
+  const total = combinedItems.length;
+  const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
+  if (page < 1) page = 1;
+  if (page > totalPages) page = totalPages;
+  currentCombinedPage = page;
+
+  const start = (page - 1) * ITEMS_PER_PAGE;
+  const slice = combinedItems.slice(start, start + ITEMS_PER_PAGE);
+
+  liveFeed.innerHTML =
+    slice
+      .map(
+        (item) => `
+      <a class="feed-item" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
+        <p class="feed-item-title">${escapeHtml(item.title)}</p>
+        <span class="feed-item-source">${escapeHtml(item.source)}</span>
+        <span class="feed-item-date">${escapeHtml(item.date)}</span>
+      </a>
+    `
+      )
+      .join("") || `<div class="feed-empty">No items available.</div>`;
+
+  // simple pagination controls
+  pagination.innerHTML = `
+    <button class="page-btn" data-page="${page - 1}" ${page <= 1 ? "disabled" : ""}>Prev</button>
+    <span class="page-info">Page ${page} of ${totalPages}</span>
+    <button class="page-btn" data-page="${page + 1}" ${page >= totalPages ? "disabled" : ""}>Next</button>
+  `;
+
+  pagination.querySelectorAll(".page-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const p = Number(btn.dataset.page);
+      if (isNaN(p)) return;
+      renderCombinedPage(p);
+    });
+  });
+}
+
 function createFeedTabs() {
   const tabs = document.getElementById("feedTabs");
-  tabs.innerHTML = FEEDS.map((f) => `<button class="feed-tab" data-feed="${f.id}">${f.label}</button>`).join("");
+  // include an "All sources" tab first
+  tabs.innerHTML = `<button class="feed-tab" data-feed="all">All sources</button>` + FEEDS.map((f) => `<button class="feed-tab" data-feed="${f.id}">${f.label}</button>`).join("");
   tabs.querySelectorAll("button").forEach((btn) => {
     btn.addEventListener("click", () => {
       const feedId = btn.dataset.feed;
       currentFeedId = feedId;
       tabs.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      fetchFeed(feedId);
+      const pagination = document.getElementById("feedPagination");
+      if (feedId === "all") {
+        pagination.innerHTML = "";
+        fetchAllFeeds();
+      } else {
+        pagination.innerHTML = "";
+        fetchFeed(feedId);
+      }
     });
   });
-  // make first active
-  const first = tabs.querySelector("button[data-feed=\"" + currentFeedId + "\"]");
+  // make first active (prefer the currentFeedId, fallback to 'all')
+  const first = tabs.querySelector("button[data-feed=\"" + currentFeedId + "\"]") || tabs.querySelector("button[data-feed=\"all\"]");
   if (first) first.classList.add("active");
 }
 
