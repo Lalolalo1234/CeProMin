@@ -156,6 +156,110 @@ function formatDateTs(ts) {
   return new Date(ts).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
+function parseDateString(str) {
+  if (!str) return null;
+  const s = str.trim().replace(/\s+/g, " ");
+  let dt = new Date(s);
+  if (!isNaN(dt)) return dt.getTime();
+
+  // try Spanish month names replacement
+  const months = {
+    enero: "January",
+    febrero: "February",
+    marzo: "March",
+    abril: "April",
+    mayo: "May",
+    junio: "June",
+    julio: "July",
+    agosto: "August",
+    septiembre: "September",
+    setiembre: "September",
+    octubre: "October",
+    noviembre: "November",
+    diciembre: "December"
+  };
+
+  let normalized = s.toLowerCase();
+  Object.keys(months).forEach((sp) => {
+    normalized = normalized.replace(new RegExp(sp, "g"), months[sp]);
+  });
+
+  dt = new Date(normalized);
+  if (!isNaN(dt)) return dt.getTime();
+
+  // try to extract common date patterns like "12 March 2024" or "March 12, 2024"
+  const m = normalized.match(/(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/i);
+  if (m) {
+    const d = new Date(`${m[2]} ${m[1]}, ${m[3]}`);
+    if (!isNaN(d)) return d.getTime();
+  }
+
+  return null;
+}
+
+async function fetchArticleDate(url) {
+  try {
+    const res = await fetch(PROXY_BASE + encodeURIComponent(url));
+    if (!res.ok) return null;
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+
+    // meta tags
+    const metaSelectors = [
+      'meta[property="article:published_time"]',
+      'meta[name="pubdate"]',
+      'meta[name="publication_date"]',
+      'meta[name="date"]',
+      'meta[itemprop="datePublished"]',
+      'meta[name="DC.date.issued"]',
+      'meta[name="twitter:label1"][content]'
+    ];
+    for (const sel of metaSelectors) {
+      const el = doc.querySelector(sel);
+      if (el) {
+        const content = el.getAttribute("content") || el.getAttribute("value") || el.textContent;
+        const ts = parseDateString(content);
+        if (ts) return ts;
+      }
+    }
+
+    // time elements
+    const timeEl = doc.querySelector('time[datetime]') || doc.querySelector('time');
+    if (timeEl) {
+      const dtStr = timeEl.getAttribute("datetime") || timeEl.textContent;
+      const ts = parseDateString(dtStr);
+      if (ts) return ts;
+    }
+
+    // common class selectors (span.date, .post-date, .fecha, .entry-date, .published)
+    const classSelectors = [".post-date", ".entry-date", ".published", ".fecha", ".date", ".post-meta time", ".meta-date", ".article-date"];
+    for (const sel of classSelectors) {
+      const el = doc.querySelector(sel);
+      if (el) {
+        const ts = parseDateString(el.getAttribute("datetime") || el.textContent);
+        if (ts) return ts;
+      }
+    }
+
+    // try the first paragraph text for a leading date (e.g., "12 de marzo de 2024 — ...")
+    const article = doc.querySelector("article") || doc.body;
+    const p = article.querySelector("p");
+    if (p) {
+      // remove leading non-date parentheses
+      const txt = p.textContent.trim().split("\n")[0].trim();
+      // common Spanish connectors like 'de' and 'de' between day month year
+      const txtNormalized = txt.replace(/(\sde\s)/gi, " ");
+      const ts = parseDateString(txtNormalized);
+      if (ts) return ts;
+    }
+
+    return null;
+  } catch (err) {
+    console.warn("fetchArticleDate error", err);
+    return null;
+  }
+}
+
 function parseReporteMineroItems(html) {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const seen = new Set();
@@ -303,6 +407,22 @@ async function fetchAllFeeds() {
         timestamp: it.timestamp || 0
       }))
       .sort((a, b) => b.timestamp - a.timestamp);
+
+    // For items without timestamps, try to fetch article pages to extract dates (limit to first 30)
+    const needs = combinedItems.filter((c) => !c.timestamp).slice(0, 30);
+    if (needs.length > 0) {
+      await Promise.all(
+        needs.map(async (it) => {
+          const ts = await fetchArticleDate(it.link);
+          if (ts) {
+            it.timestamp = ts;
+            it.date = formatDateTs(ts);
+          }
+        })
+      );
+      // re-sort after fetching timestamps
+      combinedItems.sort((a, b) => b.timestamp - a.timestamp);
+    }
 
     currentCombinedPage = 1;
     renderCombinedPage(currentCombinedPage);
