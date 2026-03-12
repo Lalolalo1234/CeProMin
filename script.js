@@ -783,4 +783,125 @@ document.getElementById("eventsShowCritical").addEventListener("click", (e) => {
 // Initial render
 renderEvents();
 
+// External event sources to scan (examples)
+const EVENT_SOURCES = [
+  { id: "mining_events", name: "Mining.com Events", url: "https://www.mining.com/events/" },
+  { id: "panorama_events", name: "Panorama Minero Events", url: "https://panoramaminero.com/" },
+  { id: "eventbrite_mining", name: "Eventbrite Mining (search)", url: "https://www.eventbrite.com/d/online/mining--events/" }
+];
+
+function parseEventsFromHtml(html, baseHost) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const found = [];
+
+  // Look for article-like nodes or common event containers
+  const candidates = doc.querySelectorAll('article, .event, .evento, .noticia, .card, .list-item, [role="article"]');
+  candidates.forEach((el) => {
+    const a = el.querySelector('a[href]');
+    const title = a ? a.textContent.trim() : el.querySelector('h3, h2, .title') && el.querySelector('h3, h2, .title').textContent.trim();
+    if (!title) return;
+    const href = a ? a.getAttribute('href') : null;
+    const link = href ? (href.startsWith('http') ? href : `${baseHost.replace(/\/+$|\/$/, '')}${href.startsWith('/') ? '' : '/'}${href}`) : '';
+
+    // date heuristics
+    let ts = null;
+    const timeEl = el.querySelector('time[datetime], time');
+    if (timeEl) ts = parseDateString(timeEl.getAttribute('datetime') || timeEl.textContent);
+    if (!ts) {
+      const dateEl = el.querySelector('.date, .fecha, .event-date, .meta-date');
+      if (dateEl) ts = parseDateString(dateEl.getAttribute('datetime') || dateEl.textContent);
+    }
+
+    // fallback: look at text of first paragraph
+    if (!ts) {
+      const p = el.querySelector('p');
+      if (p) ts = parseDateString(p.textContent.split('\n')[0]);
+    }
+
+    found.push({ title: title.replace(/\s+/g, ' '), link, timestamp: ts, date: ts ? formatDateTs(ts) : '' });
+  });
+
+  // If nothing found, fall back to scanning links on the page
+  if (found.length === 0) {
+    doc.querySelectorAll('a[href]').forEach((a) => {
+      const txt = (a.textContent || '').trim();
+      if (!txt || txt.length < 10) return;
+      const href = a.getAttribute('href');
+      const link = href.startsWith('http') ? href : `${baseHost.replace(/\/+$|\/$/, '')}${href.startsWith('/') ? '' : '/'}${href}`;
+      // try to detect a date near the link
+      const parent = a.closest('li, article, div');
+      let ts = null;
+      if (parent) {
+        const timeEl = parent.querySelector('time, .date, .fecha');
+        if (timeEl) ts = parseDateString(timeEl.getAttribute('datetime') || timeEl.textContent);
+      }
+      found.push({ title: txt.replace(/\s+/g, ' '), link, timestamp: ts, date: ts ? formatDateTs(ts) : '' });
+    });
+  }
+
+  return found.slice(0, 20);
+}
+
+async function fetchExternalEvents() {
+  const imported = [];
+  // limit total site fetches to avoid excessive traffic
+  const sourcesToFetch = EVENT_SOURCES.slice(0, 3);
+  await Promise.all(
+    sourcesToFetch.map(async (src) => {
+      try {
+        const res = await fetch(PROXY_BASE + encodeURIComponent(src.url));
+        if (!res.ok) return;
+        const html = await res.text();
+        const items = parseEventsFromHtml(html, src.url);
+        // For items without timestamps, attempt article scrape for the first 10
+        const needDates = items.filter((it) => !it.timestamp).slice(0, 10);
+        await Promise.all(
+          needDates.map(async (it) => {
+            if (!it.link) return;
+            const ts = await fetchArticleDate(it.link);
+            if (ts) {
+              it.timestamp = ts;
+              it.date = formatDateTs(ts);
+            }
+          })
+        );
+        items.forEach((it) => {
+          imported.push({ title: it.title, start: it.date || '', end: it.date || '', location: '', url: it.link, category: 'imported', timestamp: it.timestamp || 0, description: '' });
+        });
+      } catch (err) {
+        console.warn('fetchExternalEvents error', err);
+      }
+    })
+  );
+
+  if (imported.length === 0) return 0;
+
+  // dedupe by url
+  const existingUrls = new Set(EVENTS.map((e) => e.url));
+  const newOnes = imported.filter((i) => i.url && !existingUrls.has(i.url));
+  newOnes.forEach((n) => EVENTS.push(n));
+
+  // sort by timestamp and re-render (limit to 10 shown)
+  EVENTS.sort((a, b) => (parseIsoDate(a.start) || 0) - (parseIsoDate(b.start) || 0));
+  renderEvents();
+  return newOnes.length;
+}
+
+document.getElementById('eventsImport').addEventListener('click', async () => {
+  const btn = document.getElementById('eventsImport');
+  btn.textContent = 'Importing...';
+  btn.disabled = true;
+  try {
+    const added = await fetchExternalEvents();
+    btn.textContent = added ? `Imported ${added}` : 'No new events found';
+  } catch (err) {
+    console.warn(err);
+    btn.textContent = 'Import failed';
+  }
+  setTimeout(() => {
+    btn.textContent = 'Import external events';
+    btn.disabled = false;
+  }, 4000);
+});
+
 // ── End Events / Calendar ─────────────────────────────────────
