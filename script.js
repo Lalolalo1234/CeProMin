@@ -325,6 +325,89 @@ function parseGenericItems(html, baseHost) {
   return items.slice(0, 8);
 }
 
+function parseMiningComItems(html, baseHost) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = new Set();
+  const items = [];
+
+  // Prefer article blocks, fall back to links
+  const articleEls = doc.querySelectorAll("article");
+  articleEls.forEach((article) => {
+    const a = article.querySelector("a[href]");
+    if (!a) return;
+    const href = a.getAttribute("href") || "";
+    const fullHref = href.startsWith("http") ? href : `${baseHost.replace(/\/+$/, "")}${href.startsWith("/") ? "" : "/"}${href}`;
+    if (seen.has(fullHref)) return;
+    const title = a.textContent.trim().replace(/\s+/g, " ");
+    if (title.length < 10) return;
+
+    // Try to extract date from time element or metadata inside the article
+    let ts = null;
+    const timeEl = article.querySelector('time[datetime]') || article.querySelector('time');
+    if (timeEl) ts = parseDateString(timeEl.getAttribute("datetime") || timeEl.textContent);
+
+    // URL date fallback
+    if (!ts) {
+      const urlDate = fullHref.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//) || fullHref.match(/\/(\d{4})\/(\d{2})\//);
+      if (urlDate) {
+        const y = urlDate[1];
+        const m = urlDate[2] || "01";
+        const d = urlDate[3] || "01";
+        const dt = new Date(`${y}-${m}-${d}`);
+        if (!isNaN(dt)) ts = dt.getTime();
+      }
+    }
+
+    seen.add(fullHref);
+    items.push({ title, link: fullHref, date: ts ? formatDateTs(ts) : "", timestamp: ts });
+  });
+
+  if (items.length > 0) return items.slice(0, 12);
+
+  // Fallback: generic link scan
+  return parseGenericItems(html, baseHost);
+}
+
+function parsePanoramaMineroItems(html, baseHost) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = new Set();
+  const items = [];
+
+  // Panorama often uses article or .noticia containers
+  const articleEls = doc.querySelectorAll("article, .noticia, .post");
+  articleEls.forEach((article) => {
+    const a = article.querySelector("a[href]");
+    if (!a) return;
+    const href = a.getAttribute("href") || "";
+    const fullHref = href.startsWith("http") ? href : `${baseHost.replace(/\/+$/, "")}${href.startsWith("/") ? "" : "/"}${href}`;
+    if (seen.has(fullHref)) return;
+    const title = a.textContent.trim().replace(/\s+/g, " ");
+    if (title.length < 10) return;
+
+    let ts = null;
+    // look for .fecha, time, or meta in the article
+    const dateEl = article.querySelector('.fecha, time, .date, .post-date');
+    if (dateEl) ts = parseDateString(dateEl.getAttribute("datetime") || dateEl.textContent);
+
+    if (!ts) {
+      const urlDate = fullHref.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//) || fullHref.match(/\/(\d{4})\/(\d{2})\//);
+      if (urlDate) {
+        const y = urlDate[1];
+        const m = urlDate[2] || "01";
+        const d = urlDate[3] || "01";
+        const dt = new Date(`${y}-${m}-${d}`);
+        if (!isNaN(dt)) ts = dt.getTime();
+      }
+    }
+
+    seen.add(fullHref);
+    items.push({ title, link: fullHref, date: ts ? formatDateTs(ts) : "", timestamp: ts });
+  });
+
+  if (items.length > 0) return items.slice(0, 12);
+  return parseGenericItems(html, baseHost);
+}
+
 function renderFeedItems(items, sourceLabel) {
   return items
     .map(
@@ -351,6 +434,8 @@ async function fetchFeed(feedId) {
     const html = await res.text();
     let items = [];
     if (feed.id === "reporte") items = parseReporteMineroItems(html);
+    else if (feed.id === "mining") items = parseMiningComItems(html, feed.url);
+    else if (feed.id === "panorama") items = parsePanoramaMineroItems(html, feed.url);
     else items = parseGenericItems(html, feed.url);
 
     if (items.length === 0) throw new Error("No items found");
@@ -392,6 +477,8 @@ async function fetchAllFeeds() {
       let items = [];
       if (!html) return;
       if (feed.id === "reporte") items = parseReporteMineroItems(html);
+      else if (feed.id === "mining") items = parseMiningComItems(html, feed.url);
+      else if (feed.id === "panorama") items = parsePanoramaMineroItems(html, feed.url);
       else items = parseGenericItems(html, feed.url);
       items.forEach((it) => (it.source = feed.label || feed.name));
       all.push(...items);
