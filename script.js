@@ -121,12 +121,19 @@ const tickerItems = [
   "Federal execution builds long-term reliability"
 ];
 
-// ── Live Mining News ────────────────────────────────────────────
+// ── Live Mining News (multiple sources) ──────────────────────────
 
-const REPORTE_MINERO_URL = "https://www.reporteminero.cl/";
 // codetabs proxy returns the page HTML directly as text (no JSON wrapper)
 const PROXY_BASE = "https://api.codetabs.com/v1/proxy?quest=";
 const REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
+
+const FEEDS = [
+  { id: "reporte", name: "Reporte Minero", url: "https://www.reporteminero.cl/", label: "Reporte Minero" },
+  { id: "mining", name: "Mining.com", url: "https://www.mining.com/", label: "Mining.com" },
+  { id: "panorama", name: "Panorama Minero", url: "https://panoramaminero.com/", label: "Panorama Minero" }
+];
+
+let currentFeedId = FEEDS[0].id;
 
 function escapeHtml(str) {
   return String(str)
@@ -166,39 +173,83 @@ function parseReporteMineroItems(html) {
   return items.slice(0, 8);
 }
 
-function renderFeedItems(items) {
+function parseGenericItems(html, baseHost) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = new Set();
+  const items = [];
+
+  doc.querySelectorAll("a[href]").forEach((a) => {
+    const href = a.getAttribute("href") || "";
+    const fullHref = href.startsWith("http") ? href : `${baseHost.replace(/\/+$/, "")}${href.startsWith("/") ? "" : "/"}${href}`;
+    // Only include links that appear to be from the same host or are absolute
+    if (!fullHref.includes(new URL(baseHost).host) && !href.startsWith("http")) return;
+    if (seen.has(fullHref)) return;
+
+    const title = a.textContent.trim().replace(/\s+/g, " ");
+    if (title.length < 20) return;
+
+    seen.add(fullHref);
+    items.push({ title, link: fullHref, date: "" });
+  });
+
+  return items.slice(0, 8);
+}
+
+function renderFeedItems(items, sourceLabel) {
   return items
     .map(
       (item) => `
       <a class="feed-item" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
         <p class="feed-item-title">${escapeHtml(item.title)}</p>
-        <span class="feed-item-source">Reporte Minero</span>
-        <span class="feed-item-date">${escapeHtml(item.date)}</span>
+        <span class="feed-item-source">${escapeHtml(sourceLabel)}</span>
+        <span class="feed-item-date">${escapeHtml(item.date || "")}</span>
       </a>
     `
     )
     .join("");
 }
 
-async function fetchMiningNews() {
+async function fetchFeed(feedId) {
   const liveFeed = document.getElementById("liveFeed");
   const timestamp = document.getElementById("newsFeedTimestamp");
+  const feed = FEEDS.find((f) => f.id === feedId);
+  if (!feed) return;
 
   try {
-    const res = await fetch(PROXY_BASE + encodeURIComponent(REPORTE_MINERO_URL));
+    const res = await fetch(PROXY_BASE + encodeURIComponent(feed.url));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
-    const items = parseReporteMineroItems(html);
+    let items = [];
+    if (feed.id === "reporte") items = parseReporteMineroItems(html);
+    else items = parseGenericItems(html, feed.url);
+
     if (items.length === 0) throw new Error("No items found");
 
-    liveFeed.innerHTML = renderFeedItems(items);
+    liveFeed.innerHTML = renderFeedItems(items, feed.label || feed.name);
     timestamp.textContent =
-      "Updated " +
-      new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-  } catch {
-    liveFeed.innerHTML = `<div class="feed-error">Unable to load live feed — check back shortly.</div>`;
+      "Updated " + new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  } catch (err) {
+    console.warn(err);
+    liveFeed.innerHTML = `<div class="feed-error">Unable to load ${escapeHtml(feed.label || feed.name)} — check back shortly.</div>`;
     timestamp.textContent = "";
   }
+}
+
+function createFeedTabs() {
+  const tabs = document.getElementById("feedTabs");
+  tabs.innerHTML = FEEDS.map((f) => `<button class="feed-tab" data-feed="${f.id}">${f.label}</button>`).join("");
+  tabs.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const feedId = btn.dataset.feed;
+      currentFeedId = feedId;
+      tabs.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      fetchFeed(feedId);
+    });
+  });
+  // make first active
+  const first = tabs.querySelector("button[data-feed=\"" + currentFeedId + "\"]");
+  if (first) first.classList.add("active");
 }
 
 // ── End Live Mining News ─────────────────────────────────────────
@@ -293,5 +344,6 @@ renderList(outcomesList, outcomes);
 renderList(governanceList, governance);
 directorProfileNode.textContent = directorProfile;
 
-fetchMiningNews();
-setInterval(fetchMiningNews, REFRESH_INTERVAL_MS);
+createFeedTabs();
+fetchFeed(currentFeedId);
+setInterval(() => fetchFeed(currentFeedId), REFRESH_INTERVAL_MS);
