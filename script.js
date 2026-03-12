@@ -683,3 +683,104 @@ directorProfileNode.textContent = directorProfile;
 createFeedTabs();
 fetchFeed(currentFeedId);
 setInterval(() => fetchFeed(currentFeedId), REFRESH_INTERVAL_MS);
+
+// ── Events / Calendar ─────────────────────────────────────────
+
+const EVENTS = [
+  {
+    title: "International Critical Raw Materials Summit",
+    start: "2026-05-20",
+    end: "2026-05-22",
+    location: "Madrid, Spain",
+    url: "https://example.com/icrms-2026",
+    category: "critical",
+    description: "Focused on policy, supply chains and strategic sourcing for critical raw materials."
+  },
+  {
+    title: "Pan-American Mining Congress",
+    start: "2026-06-10",
+    end: "2026-06-12",
+    location: "Santiago, Chile",
+    url: "https://example.com/pamc-2026",
+    category: "general",
+    description: "Regional mining policy and investment conference for Latin America."
+  },
+  {
+    title: "Critical Minerals Forum Latin America",
+    start: "2026-07-08",
+    end: "2026-07-09",
+    location: "Buenos Aires, Argentina",
+    url: "https://example.com/cmf-la-2026",
+    category: "critical",
+    description: "Workshops and panels on securing supply chains for critical minerals in Latin America."
+  },
+  {
+    title: "Mining Expo",
+    start: "2026-09-15",
+    end: "2026-09-17",
+    location: "Lima, Peru",
+    url: "https://example.com/mining-expo-2026",
+    category: "general",
+    description: "Exhibition of mining technologies, equipment and services."
+  }
+];
+
+function parseIsoDate(d) {
+  if (!d) return null;
+  const t = new Date(d);
+  return isNaN(t) ? null : t.getTime();
+}
+
+function formatEventDateRange(startIso, endIso) {
+  const s = parseIsoDate(startIso);
+  const e = parseIsoDate(endIso);
+  if (!s) return "";
+  if (!e || s === e) return new Date(s).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  return `${new Date(s).toLocaleDateString(undefined, { month: "short", day: "numeric" })} — ${new Date(e).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`;
+}
+
+function renderEvents(filter = "all") {
+  const container = document.getElementById("eventsList");
+  const now = Date.now();
+  const filtered = EVENTS.filter((ev) => {
+    if (filter === "critical") return ev.category === "critical";
+    return true;
+  })
+    .map((ev) => ({ ...ev, ts: parseIsoDate(ev.start) || 0 }))
+    .filter((ev) => ev.ts === 0 || ev.ts >= now - 1000 * 60 * 60 * 24) // include upcoming or undated
+    .sort((a, b) => a.ts - b.ts)
+    .slice(0, 10); // max 10
+
+  container.innerHTML = filtered
+    .map(
+      (ev) => `
+    <article class="event-card">
+      <h3><a href="${escapeHtml(ev.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ev.title)}</a></h3>
+      <div class="event-meta">
+        <span class="event-date">${escapeHtml(formatEventDateRange(ev.start, ev.end))}</span>
+        <span class="event-location">${escapeHtml(ev.location || "")}</span>
+        <span class="event-category">${escapeHtml(ev.category)}</span>
+      </div>
+      <p class="event-desc">${escapeHtml(ev.description || "")}</p>
+    </article>
+  `
+    )
+    .join("");
+}
+
+document.getElementById("eventsShowAll").addEventListener("click", (e) => {
+  document.getElementById("eventsShowAll").classList.add("active");
+  document.getElementById("eventsShowCritical").classList.remove("active");
+  renderEvents("all");
+});
+
+document.getElementById("eventsShowCritical").addEventListener("click", (e) => {
+  document.getElementById("eventsShowCritical").classList.add("active");
+  document.getElementById("eventsShowAll").classList.remove("active");
+  renderEvents("critical");
+});
+
+// Initial render
+renderEvents();
+
+// ── End Events / Calendar ─────────────────────────────────────
