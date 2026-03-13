@@ -538,6 +538,13 @@ main,
   margin-top: 0.1rem;
 }
 
+.event-day:empty + .event-month,
+.event-date-block:has(.event-day:empty) .event-month {
+  font-size: 0.78rem;
+  opacity: 1;
+  letter-spacing: 0.05em;
+}
+
 .event-body {
   padding: 0.9rem 1.1rem;
   flex: 1;

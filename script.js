@@ -813,9 +813,14 @@ function renderEvents() {
   const container = document.getElementById("eventsList");
   const now = Date.now();
   const sorted = EVENTS
-    .map((ev) => ({ ...ev, ts: parseIsoDate(ev.start) || ev.timestamp || 0 }))
+    .map((ev) => ({ ...ev, ts: ev.timestamp || parseIsoDate(ev.start) || 0 }))
     .filter((ev) => ev.ts === 0 || ev.ts >= now - 86400000)
-    .sort((a, b) => a.ts - b.ts)
+    .sort((a, b) => {
+      if (a.ts && b.ts) return a.ts - b.ts;
+      if (a.ts) return -1;
+      if (b.ts) return 1;
+      return 0;
+    })
     .slice(0, 15);
 
   if (sorted.length === 0) {
@@ -825,8 +830,8 @@ function renderEvents() {
 
   container.innerHTML = sorted.map((ev) => {
     const d = ev.ts ? new Date(ev.ts) : null;
-    const month = d ? d.toLocaleDateString(undefined, { month: "short" }) : "–";
-    const day = d ? d.getDate() : "?";
+    const month = d ? d.toLocaleDateString(undefined, { month: "short" }).toUpperCase() : "TBD";
+    const day = d ? d.getDate() : "";
     const endTs = ev.end ? parseIsoDate(ev.end) : null;
     const endStr = endTs && endTs !== ev.ts
       ? ` – ${new Date(endTs).toLocaleDateString(undefined, { month: "short", day: "numeric" })}`
@@ -850,10 +855,16 @@ function renderEvents() {
 }
 
 const EVENT_SOURCES = [
-  { id: "mining_events", name: "Mining.com", url: "https://www.mining.com/events/" },
-  { id: "minesandmoney", name: "Mines & Money", url: "https://www.minesandmoney.com/events/" },
-  { id: "mining_weekly", name: "Mining Weekly", url: "https://www.miningweekly.com/events" },
-  { id: "panorama_events", name: "Panorama Minero", url: "https://panoramaminero.com/" }
+  { id: "mining_events",    name: "Mining.com",          url: "https://www.mining.com/events/" },
+  { id: "minesandmoney",   name: "Mines & Money",        url: "https://www.minesandmoney.com/events/" },
+  { id: "mining_weekly",   name: "Mining Weekly",        url: "https://www.miningweekly.com/events" },
+  { id: "northernminer",   name: "Northern Miner",       url: "https://www.northernminer.com/category/events/" },
+  { id: "pdac",            name: "PDAC",                 url: "https://www.pdac.ca/convention" },
+  { id: "indaba",          name: "Mining Indaba",        url: "https://miningindaba.com/agenda" },
+  { id: "argentinamining", name: "Argentina Mining",     url: "https://www.argentinamining.com/eventos/" },
+  { id: "exponor",         name: "Exponor Chile",        url: "https://www.exponor.cl/" },
+  { id: "perumin",         name: "Perumin",              url: "https://www.perumin.com.pe/" },
+  { id: "cesco",           name: "CESCO",                url: "https://www.cesco.cl/eventos/" }
 ];
 
 function parseEventsFromHtml(html, baseHost) {
@@ -916,7 +927,7 @@ async function fetchExternalEvents() {
         if (!res.ok) return;
         const html = await res.text();
         const items = parseEventsFromHtml(html, src.url);
-        const needDates = items.filter((it) => !it.timestamp).slice(0, 8);
+        const needDates = items.filter((it) => !it.timestamp).slice(0, 15);
         await Promise.all(
           needDates.map(async (it) => {
             if (!it.link) return;
@@ -925,7 +936,8 @@ async function fetchExternalEvents() {
           })
         );
         items.forEach((it) => {
-          imported.push({ title: it.title, start: it.date || '', end: '', location: '', url: it.link, source: src.name, timestamp: it.timestamp || 0, description: '' });
+          const isoStart = it.timestamp ? new Date(it.timestamp).toISOString().split("T")[0] : "";
+          imported.push({ title: it.title, start: isoStart, end: '', location: '', url: it.link, source: src.name, timestamp: it.timestamp || 0, description: '' });
         });
       } catch (err) {
         console.warn('fetchExternalEvents error', src.id, err);
