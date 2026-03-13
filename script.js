@@ -133,7 +133,6 @@ const FEEDS = [
   { id: "panorama", name: "Panorama Minero", url: "https://panoramaminero.com/", label: "Panorama Minero" }
 ];
 
-let currentFeedId = FEEDS[0].id;
 
 function escapeHtml(str) {
   return String(str)
@@ -408,47 +407,7 @@ function parsePanoramaMineroItems(html, baseHost) {
   return parseGenericItems(html, baseHost);
 }
 
-function renderFeedItems(items, sourceLabel) {
-  return items
-    .map(
-      (item) => `
-      <a class="feed-item" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
-        <p class="feed-item-title">${escapeHtml(item.title)}</p>
-        <span class="feed-item-source">${escapeHtml(sourceLabel)}</span>
-        <span class="feed-item-date">${escapeHtml(item.date || "")}</span>
-      </a>
-    `
-    )
-    .join("");
-}
 
-async function fetchFeed(feedId) {
-  const liveFeed = document.getElementById("liveFeed");
-  const timestamp = document.getElementById("newsFeedTimestamp");
-  const feed = FEEDS.find((f) => f.id === feedId);
-  if (!feed) return;
-
-  try {
-    const res = await fetch(PROXY_BASE + encodeURIComponent(feed.url));
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const html = await res.text();
-    let items = [];
-    if (feed.id === "reporte") items = parseReporteMineroItems(html);
-    else if (feed.id === "mining") items = parseMiningComItems(html, feed.url);
-    else if (feed.id === "panorama") items = parsePanoramaMineroItems(html, feed.url);
-    else items = parseGenericItems(html, feed.url);
-
-    if (items.length === 0) throw new Error("No items found");
-
-    liveFeed.innerHTML = renderFeedItems(items, feed.label || feed.name);
-    timestamp.textContent =
-      "Updated " + new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-  } catch (err) {
-    console.warn(err);
-    liveFeed.innerHTML = `<div class="feed-error">Unable to load ${escapeHtml(feed.label || feed.name)} — check back shortly.</div>`;
-    timestamp.textContent = "";
-  }
-}
 
 // Combined feed state and pagination
 let combinedItems = [];
@@ -563,30 +522,6 @@ function renderCombinedPage(page) {
   });
 }
 
-function createFeedTabs() {
-  const tabs = document.getElementById("feedTabs");
-  // include an "All sources" tab first
-  tabs.innerHTML = `<button class="feed-tab" data-feed="all">All sources</button>` + FEEDS.map((f) => `<button class="feed-tab" data-feed="${f.id}">${f.label}</button>`).join("");
-  tabs.querySelectorAll("button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const feedId = btn.dataset.feed;
-      currentFeedId = feedId;
-      tabs.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      const pagination = document.getElementById("feedPagination");
-      if (feedId === "all") {
-        pagination.innerHTML = "";
-        fetchAllFeeds();
-      } else {
-        pagination.innerHTML = "";
-        fetchFeed(feedId);
-      }
-    });
-  });
-  // make first active (prefer the currentFeedId, fallback to 'all')
-  const first = tabs.querySelector("button[data-feed=\"" + currentFeedId + "\"]") || tabs.querySelector("button[data-feed=\"all\"]");
-  if (first) first.classList.add("active");
-}
 
 // ── End Live Mining News ─────────────────────────────────────────
 
@@ -680,9 +615,8 @@ renderList(outcomesList, outcomes);
 renderList(governanceList, governance);
 directorProfileNode.textContent = directorProfile;
 
-createFeedTabs();
-fetchFeed(currentFeedId);
-setInterval(() => fetchFeed(currentFeedId), REFRESH_INTERVAL_MS);
+fetchAllFeeds();
+setInterval(fetchAllFeeds, REFRESH_INTERVAL_MS);
 
 // ── Events / Calendar ─────────────────────────────────────────
 
