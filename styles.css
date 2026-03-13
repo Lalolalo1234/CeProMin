@@ -87,6 +87,27 @@ main,
   letter-spacing: 0.05em;
 }
 
+.lang-toggle {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 130ms ease, color 130ms ease;
+  align-self: center;
+}
+
+.lang-toggle:hover {
+  background: var(--ink);
+  color: white;
+}
+
 .chip-alert {
   color: white;
   background: linear-gradient(110deg, var(--accent), #de7a45);
