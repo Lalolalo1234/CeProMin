@@ -1,3 +1,105 @@
+// ── Internationalisation ─────────────────────────────────────────
+
+let currentLang = "en";
+let currentFilter = "all";
+
+const i18n = {
+  en: {
+    "header-chip": "Strategic Foresight Portal",
+    eyebrow: "Argentine Mining Strategic Foresight Center",
+    "hero-h1": "Global markets define mineral demand. Strategy defines what Argentina should mine.",
+    "hero-p": "CeProMin is designed as the intelligence architecture that translates demand signals from global value chains into differentiated mineral policy, investment priorities, and coordinated federal execution.",
+    "news-heading": "Live Mining News",
+    "news-loading": "Loading latest mining news\u2026",
+    "strategic-heading": "Strategic Logic",
+    "strategic-sub": "Demand-led mining model",
+    "demand-heading": "Market Demand to Mineral Priorities",
+    "demand-sub": "Filter by demand cluster",
+    "filter-all": "All clusters",
+    "filter-electrification": "Electrification",
+    "filter-technology": "Technology and defense",
+    "filter-financial": "Financial demand",
+    "filter-agrochemical": "Agrochemical demand",
+    "gaps-heading": "Strategic Gaps CeProMin Addresses",
+    "gaps-sub": "Current constraints in Argentina",
+    "pillar-measure": "Measure",
+    "pillar-anticipate": "Anticipate",
+    "pillar-guide": "Guide",
+    "outcomes-heading": "Expected Strategic Impact",
+    "governance-heading": "Institutional Execution Model",
+    "director-heading": "Programme Director",
+    "director-sub": "Leadership profile",
+    "events-heading": "Upcoming Mining Events",
+    "events-loading": "Loading upcoming events\u2026",
+    "card-market-signal": "Market signal",
+    "card-demand-driver": "Demand driver",
+    "card-mineral-priority": "Mineral priority",
+    "card-strategic-response": "Strategic response",
+    footer: "CeProMin concept portal aligned to a demand-led strategic model: markets generate mineral demand, and mineral demand should shape extraction strategy and policy."
+  },
+  es: {
+    "header-chip": "Portal de Prospectiva Estrat\u00e9gica",
+    eyebrow: "Centro Argentino de Prospectiva Minera",
+    "hero-h1": "Los mercados globales definen la demanda mineral. La estrategia define lo que Argentina debe extraer.",
+    "hero-p": "CeProMin est\u00e1 dise\u00f1ado como la arquitectura de inteligencia que traduce las se\u00f1ales de demanda de las cadenas de valor globales en pol\u00edtica mineral diferenciada, prioridades de inversi\u00f3n y ejecuci\u00f3n federal coordinada.",
+    "news-heading": "Noticias Mineras en Vivo",
+    "news-loading": "Cargando \u00faltimas noticias mineras\u2026",
+    "strategic-heading": "L\u00f3gica Estrat\u00e9gica",
+    "strategic-sub": "Modelo minero orientado por la demanda",
+    "demand-heading": "Demanda de Mercado a Prioridades Minerales",
+    "demand-sub": "Filtrar por cluster de demanda",
+    "filter-all": "Todos los clusters",
+    "filter-electrification": "Electrificaci\u00f3n",
+    "filter-technology": "Tecnolog\u00eda y defensa",
+    "filter-financial": "Demanda financiera",
+    "filter-agrochemical": "Demanda agroquímica",
+    "gaps-heading": "Brechas Estrat\u00e9gicas que CeProMin Aborda",
+    "gaps-sub": "Restricciones actuales en Argentina",
+    "pillar-measure": "Medir",
+    "pillar-anticipate": "Anticipar",
+    "pillar-guide": "Guiar",
+    "outcomes-heading": "Impacto Estrat\u00e9gico Esperado",
+    "governance-heading": "Modelo de Ejecuci\u00f3n Institucional",
+    "director-heading": "Director del Programa",
+    "director-sub": "Perfil de liderazgo",
+    "events-heading": "Pr\u00f3ximos Eventos Mineros",
+    "events-loading": "Cargando pr\u00f3ximos eventos\u2026",
+    "card-market-signal": "Se\u00f1al de mercado",
+    "card-demand-driver": "Motor de demanda",
+    "card-mineral-priority": "Prioridad mineral",
+    "card-strategic-response": "Respuesta estrat\u00e9gica",
+    footer: "Portal de concepto CeProMin alineado a un modelo minero orientado por la demanda: los mercados generan demanda mineral, y la demanda mineral debe orientar la estrategia de extracci\u00f3n y la pol\u00edtica p\u00fablica."
+  }
+};
+
+function applyTranslations(lang) {
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.dataset.i18n;
+    if (i18n[lang][key] !== undefined) el.textContent = i18n[lang][key];
+  });
+  document.documentElement.lang = lang;
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  applyTranslations(lang);
+  renderTicker();
+  renderFlowSteps();
+  renderDemandCards(currentFilter);
+  renderList(diagnosisList, lang === "es" ? diagnosis_es : diagnosis);
+  renderList(functionsList, lang === "es" ? measurePillar_es : measurePillar);
+  renderList(impactList, lang === "es" ? anticipatePillar_es : anticipatePillar);
+  renderList(architectureList, lang === "es" ? guidePillar_es : guidePillar);
+  renderList(outcomesList, lang === "es" ? outcomes_es : outcomes);
+  renderList(governanceList, lang === "es" ? governance_es : governance);
+  directorProfileNode.textContent = lang === "es" ? directorProfile_es : directorProfile;
+  const btn = document.getElementById("langToggle");
+  btn.textContent = lang === "en" ? "ES" : "EN";
+  btn.title = lang === "en" ? "Cambiar a español" : "Switch to English";
+}
+
+// ── End Internationalisation ──────────────────────────────────────
+
 const flowSteps = [
   {
     step: "1",
@@ -120,6 +222,80 @@ const tickerItems = [
   "Differentiated policy needs federal execution",
   "Federal execution builds long-term reliability"
 ];
+
+// ── Spanish content ───────────────────────────────────────────────
+
+const flowSteps_es = [
+  { step: "1", title: "Leer la demanda global", description: "Seguir cómo la transición energética, las cadenas tecnológicas, la geopolítica y los ciclos financieros reconfiguran la demanda mineral." },
+  { step: "2", title: "Mapear ecosistemas minerales", description: "Traducir cada señal de demanda en ecosistemas específicos por mineral con dinámicas diferenciadas de mercado, ESG y riesgo." },
+  { step: "3", title: "Definir la respuesta estratégica", description: "Priorizar herramientas de política, infraestructura e inversión por mineral en lugar de aplicar un marco genérico." },
+  { step: "4", title: "Ejecutar federalmente", description: "Coordinar provincias, gobierno nacional y actores privados bajo una arquitectura institucional público-privada estable." }
+];
+
+const demandMineralLinks_es = [
+  { title: "Electrificación y expansión de redes", marketNeed: "Las redes eléctricas, la transmisión y la manufactura pesada escalan rápidamente.", minerals: "Cobre y plata", response: "Priorizar la competitividad logística, la visibilidad en permisos y la planificación de corredores industriales.", category: "electrification" },
+  { title: "Transición de baterías y movilidad", marketNeed: "Las cadenas de valor de baterías requieren suministros de insumos seguros a largo plazo.", minerals: "Litio", response: "Desarrollar estrategias de integración diferenciadas vinculadas al procesamiento aguas abajo y al posicionamiento exportador.", category: "electrification" },
+  { title: "Tecnología avanzada y autonomía estratégica", marketNeed: "La IA, la magnética y la manufactura de alta tecnología aumentan el riesgo de concentración de demanda.", minerals: "Tierras raras", response: "Construir inteligencia sobre riesgos geopolíticos y celebrar acuerdos estratégicos con regiones asociadas clave.", category: "technology" },
+  { title: "Incertidumbre macro y comportamiento de reservas", marketNeed: "Los períodos de volatilidad aumentan la demanda de activos financieros de refugio seguro.", minerals: "Oro", response: "Integrar la prospectiva macrofinanciera con reglas institucionales estables y certeza para el inversor a largo plazo.", category: "financial" },
+  { title: "Sistemas alimentarios y demanda de fertilizantes", marketNeed: "Las presiones sobre la productividad agrícola sostienen la demanda de insumos químicos y fertilizantes.", minerals: "Potasio y minerales industriales", response: "Alinear la infraestructura regional, los modelos de desarrollo territorial y la estrategia de cadena de valor química.", category: "agrochemical" }
+];
+
+const diagnosis_es = [
+  "Argentina tiene un sólido potencial geológico pero carece de una institución permanente que convierta la inteligencia de mercado en estrategia coordinada.",
+  "No existen indicadores unificados nacionales y provinciales de competitividad, permisos, infraestructura y desempeño de inversión.",
+  "Los escenarios prospectivos 2030-2050 que integran demanda, precios, tecnologías y geopolítica no están institucionalizados.",
+  "Los mecanismos de coordinación entre provincias, autoridades nacionales y actores privados siguen estructuralmente fragmentados.",
+  "Los marcos estables que reducen la incertidumbre para inversores y comunidades aún son insuficientes."
+];
+
+const measurePillar_es = [
+  "Indicadores nacionales y provinciales por ecosistema mineral.",
+  "Benchmarking de competitividad fiscal, regulatoria y logística.",
+  "Seguimiento del desempeño ESG con métricas homogéneas.",
+  "Diagnósticos de madurez tecnológica por cadena mineral."
+];
+
+const anticipatePillar_es = [
+  "Escenarios de demanda y oferta 2030-2050 por mineral.",
+  "Análisis integrado de riesgos de mercado, tecnología y geopolítica.",
+  "Señales basadas en escenarios para la secuencia de proyectos y el timing de inversión.",
+  "Inteligencia de alerta temprana ante cambios críticos en cadenas de valor globales."
+];
+
+const guidePillar_es = [
+  "Políticas diferenciadas por ecosistema mineral.",
+  "Estrategia de integración internacional con la UE, EE.UU. y Asia.",
+  "Modelos de desarrollo regional vinculados a clusters mineros.",
+  "Hojas de ruta de política accionables que conectan la prospectiva con la ejecución."
+];
+
+const outcomes_es = [
+  "Atraer inversión reduciendo la incertidumbre mediante señales estratégicas consistentes.",
+  "Mejorar la competitividad con diseño de políticas basado en evidencia.",
+  "Alinear agendas provinciales y nacionales bajo un marco federal.",
+  "Fortalecer cadenas de suministro locales e integración industrial.",
+  "Reforzar la licencia social mediante una gobernanza predecible a largo plazo.",
+  "Posicionar a Argentina como proveedor confiable a largo plazo de minerales críticos."
+];
+
+const governance_es = [
+  "Entidad institucional público-privada con autonomía técnica.",
+  "Gobernanza federal con representación de las provincias productoras.",
+  "Modelo de financiamiento mixto: gobierno, sector privado y cooperación internacional.",
+  "Foco misional: convertir el potencial geológico en un proyecto nacional coordinado."
+];
+
+const tickerItems_es = [
+  "Los mercados generan señales de demanda",
+  "Las señales de demanda definen las prioridades minerales",
+  "Las prioridades minerales requieren política diferenciada",
+  "La política diferenciada necesita ejecución federal",
+  "La ejecución federal construye confiabilidad a largo plazo"
+];
+
+const directorProfile_es = "Juan Eduardo Barrera es Doctor en Ingeniería de Minas por la Universidad Politécnica de Madrid, diploma del PNUMA, y cuenta con más de 30 años de experiencia en organizaciones como el Banco Mundial, BID, ONU, BERD y la UE, combinando liderazgo en política minera, finanzas de proyectos y asesoría estratégica internacional.";
+
+// ── End Spanish content ───────────────────────────────────────────
 
 // ── Live Mining News (multiple sources) ──────────────────────────
 
@@ -542,7 +718,8 @@ const directorProfileNode = document.getElementById("directorProfile");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
 function renderFlowSteps() {
-  flowStepsNode.innerHTML = flowSteps
+  const steps = currentLang === "es" ? flowSteps_es : flowSteps;
+  flowStepsNode.innerHTML = steps
     .map(
       (item) => `
       <article class="flow-card">
@@ -556,20 +733,18 @@ function renderFlowSteps() {
 }
 
 function renderDemandCards(filter) {
-  const selected =
-    filter === "all"
-      ? demandMineralLinks
-      : demandMineralLinks.filter((item) => item.category === filter);
-
+  const source = currentLang === "es" ? demandMineralLinks_es : demandMineralLinks;
+  const t = i18n[currentLang];
+  const selected = filter === "all" ? source : source.filter((item) => item.category === filter);
   newsGrid.innerHTML = selected
     .map(
       (item) => `
       <article class="news-card">
-        <div class="meta">Market signal</div>
+        <div class="meta">${t["card-market-signal"]}</div>
         <h3>${item.title}</h3>
-        <p><strong>Demand driver:</strong> ${item.marketNeed}</p>
-        <p><strong>Mineral priority:</strong> ${item.minerals}</p>
-        <p><strong>Strategic response:</strong> ${item.response}</p>
+        <p><strong>${t["card-demand-driver"]}:</strong> ${item.marketNeed}</p>
+        <p><strong>${t["card-mineral-priority"]}:</strong> ${item.minerals}</p>
+        <p><strong>${t["card-strategic-response"]}:</strong> ${item.response}</p>
         <span class="tag">${item.category}</span>
       </article>
     `
@@ -578,7 +753,8 @@ function renderDemandCards(filter) {
 }
 
 function renderTicker() {
-  const doubled = [...tickerItems, ...tickerItems];
+  const items = currentLang === "es" ? tickerItems_es : tickerItems;
+  const doubled = [...items, ...items];
   tickerTrack.innerHTML = doubled.map((item) => `<span class="ticker-item">${item}</span>`).join("");
 }
 
@@ -599,8 +775,13 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     filterButtons.forEach((btn) => btn.classList.remove("active"));
     button.classList.add("active");
-    renderDemandCards(button.dataset.filter);
+    currentFilter = button.dataset.filter;
+    renderDemandCards(currentFilter);
   });
+});
+
+document.getElementById("langToggle").addEventListener("click", () => {
+  setLanguage(currentLang === "en" ? "es" : "en");
 });
 
 setCurrentDate();

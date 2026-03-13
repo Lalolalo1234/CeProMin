@@ -25,15 +25,16 @@
       </div>
       <div class="header-meta">
         <span id="currentDate" class="chip"></span>
-        <span class="chip chip-alert">Strategic Foresight Portal</span>
+        <span class="chip chip-alert" data-i18n="header-chip">Strategic Foresight Portal</span>
+        <button id="langToggle" class="lang-toggle" title="Switch language">ES</button>
       </div>
     </header>
 
     <main>
       <section class="hero">
-        <p class="eyebrow">Argentine Mining Strategic Foresight Center</p>
-        <h1>Global markets define mineral demand. Strategy defines what Argentina should mine.</h1>
-        <p>
+        <p class="eyebrow" data-i18n="eyebrow">Argentine Mining Strategic Foresight Center</p>
+        <h1 data-i18n="hero-h1">Global markets define mineral demand. Strategy defines what Argentina should mine.</h1>
+        <p data-i18n="hero-p">
           CeProMin is designed as the intelligence architecture that translates demand
           signals from global value chains into differentiated mineral policy, investment
           priorities, and coordinated federal execution.
@@ -47,7 +48,7 @@
       <section class="developments live-news-section">
         <div class="section-title-row">
           <div class="live-news-heading">
-            <h2>Live Mining News</h2>
+            <h2 data-i18n="news-heading">Live Mining News</h2>
             <span class="live-badge" aria-label="Live feed">LIVE</span>
           </div>
           <span class="subtle" id="newsFeedTimestamp"></span>
@@ -55,7 +56,7 @@
           <div id="liveFeed" class="live-feed" aria-live="polite" aria-atomic="false">
             <div class="feed-loading">
               <span class="feed-spinner" aria-hidden="true"></span>
-              Loading latest mining news&hellip;
+              <span data-i18n="news-loading">Loading latest mining news&hellip;</span>
             </div>
           </div>
           <div id="feedPagination" class="feed-pagination" aria-label="Feed pagination"></div>
@@ -63,24 +64,24 @@
 
       <section class="developments">
         <div class="section-title-row">
-          <h2>Strategic Logic</h2>
-          <span class="subtle">Demand-led mining model</span>
+          <h2 data-i18n="strategic-heading">Strategic Logic</h2>
+          <span class="subtle" data-i18n="strategic-sub">Demand-led mining model</span>
         </div>
         <div id="flowSteps" class="flow-grid" aria-live="polite"></div>
       </section>
 
       <section>
         <div class="section-title-row">
-          <h2>Market Demand to Mineral Priorities</h2>
-          <span class="subtle">Filter by demand cluster</span>
+          <h2 data-i18n="demand-heading">Market Demand to Mineral Priorities</h2>
+          <span class="subtle" data-i18n="demand-sub">Filter by demand cluster</span>
         </div>
 
         <section class="news-controls" aria-label="Filter demand clusters">
-          <button class="filter-btn active" data-filter="all">All clusters</button>
-          <button class="filter-btn" data-filter="electrification">Electrification</button>
-          <button class="filter-btn" data-filter="technology">Technology and defense</button>
-          <button class="filter-btn" data-filter="financial">Financial demand</button>
-          <button class="filter-btn" data-filter="agrochemical">Agrochemical demand</button>
+          <button class="filter-btn active" data-filter="all" data-i18n="filter-all">All clusters</button>
+          <button class="filter-btn" data-filter="electrification" data-i18n="filter-electrification">Electrification</button>
+          <button class="filter-btn" data-filter="technology" data-i18n="filter-technology">Technology and defense</button>
+          <button class="filter-btn" data-filter="financial" data-i18n="filter-financial">Financial demand</button>
+          <button class="filter-btn" data-filter="agrochemical" data-i18n="filter-agrochemical">Agrochemical demand</button>
         </section>
 
         <div class="news-grid" id="newsGrid" aria-live="polite"></div>
@@ -88,42 +89,42 @@
 
       <section class="developments">
         <div class="section-title-row">
-          <h2>Strategic Gaps CeProMin Addresses</h2>
-          <span class="subtle">Current constraints in Argentina</span>
+          <h2 data-i18n="gaps-heading">Strategic Gaps CeProMin Addresses</h2>
+          <span class="subtle" data-i18n="gaps-sub">Current constraints in Argentina</span>
         </div>
         <ul id="diagnosisList" class="developments-list"></ul>
       </section>
 
       <section class="framework-grid" aria-label="Core strategic framework">
         <article class="framework-card">
-          <h3>Measure</h3>
+          <h3 data-i18n="pillar-measure">Measure</h3>
           <ul id="functionsList" class="flat-list"></ul>
         </article>
         <article class="framework-card">
-          <h3>Anticipate</h3>
+          <h3 data-i18n="pillar-anticipate">Anticipate</h3>
           <ul id="impactList" class="flat-list"></ul>
         </article>
         <article class="framework-card">
-          <h3>Guide</h3>
+          <h3 data-i18n="pillar-guide">Guide</h3>
           <ul id="architectureList" class="flat-list"></ul>
         </article>
       </section>
 
       <section class="framework-grid" aria-label="Execution and outcomes framework">
         <article class="framework-card">
-          <h3>Expected Strategic Impact</h3>
+          <h3 data-i18n="outcomes-heading">Expected Strategic Impact</h3>
           <ul id="outcomesList" class="flat-list"></ul>
         </article>
         <article class="framework-card">
-          <h3>Institutional Execution Model</h3>
+          <h3 data-i18n="governance-heading">Institutional Execution Model</h3>
           <ul id="governanceList" class="flat-list"></ul>
         </article>
       </section>
 
       <section class="developments">
         <div class="section-title-row">
-          <h2>Programme Director</h2>
-          <span class="subtle">Leadership profile</span>
+          <h2 data-i18n="director-heading">Programme Director</h2>
+          <span class="subtle" data-i18n="director-sub">Leadership profile</span>
         </div>
         <p id="directorProfile" class="director-profile"></p>
       </section>
@@ -131,7 +132,7 @@
       <section class="developments events-section">
         <div class="section-title-row">
           <div class="live-news-heading">
-            <h2>Upcoming Mining Events</h2>
+            <h2 data-i18n="events-heading">Upcoming Mining Events</h2>
             <span class="live-badge" aria-label="Live feed">LIVE</span>
           </div>
           <span class="subtle" id="eventsTimestamp"></span>
@@ -139,14 +140,14 @@
         <div id="eventsList" class="events-list" aria-live="polite">
           <div class="feed-loading">
             <span class="feed-spinner" aria-hidden="true"></span>
-            Loading upcoming events&hellip;
+            <span data-i18n="events-loading">Loading upcoming events&hellip;</span>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>
+      <p data-i18n="footer">
         CeProMin concept portal aligned to a demand-led strategic model: markets generate
         mineral demand, and mineral demand should shape extraction strategy and policy.
       </p>
