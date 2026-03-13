@@ -130,15 +130,18 @@
 
       <section class="developments events-section">
         <div class="section-title-row">
-          <h2>Upcoming Mining Events</h2>
-          <span class="subtle">Conferences, exhibitions, and congresses</span>
+          <div class="live-news-heading">
+            <h2>Upcoming Mining Events</h2>
+            <span class="live-badge" aria-label="Live feed">LIVE</span>
+          </div>
+          <span class="subtle" id="eventsTimestamp"></span>
         </div>
-        <div class="events-controls">
-          <button id="eventsShowAll" class="filter-btn active">Next events</button>
-          <button id="eventsShowCritical" class="filter-btn">Critical raw materials</button>
-          <button id="eventsImport" class="filter-btn">Import external events</button>
+        <div id="eventsList" class="events-list" aria-live="polite">
+          <div class="feed-loading">
+            <span class="feed-spinner" aria-hidden="true"></span>
+            Loading upcoming events&hellip;
+          </div>
         </div>
-        <div id="eventsList" class="events-list" aria-live="polite"></div>
       </section>
     </main>
 
