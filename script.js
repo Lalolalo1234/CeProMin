@@ -620,44 +620,7 @@ setInterval(fetchAllFeeds, REFRESH_INTERVAL_MS);
 
 // ── Events / Calendar ─────────────────────────────────────────
 
-const EVENTS = [
-  {
-    title: "International Critical Raw Materials Summit",
-    start: "2026-05-20",
-    end: "2026-05-22",
-    location: "Madrid, Spain",
-    url: "https://example.com/icrms-2026",
-    category: "critical",
-    description: "Focused on policy, supply chains and strategic sourcing for critical raw materials."
-  },
-  {
-    title: "Pan-American Mining Congress",
-    start: "2026-06-10",
-    end: "2026-06-12",
-    location: "Santiago, Chile",
-    url: "https://example.com/pamc-2026",
-    category: "general",
-    description: "Regional mining policy and investment conference for Latin America."
-  },
-  {
-    title: "Critical Minerals Forum Latin America",
-    start: "2026-07-08",
-    end: "2026-07-09",
-    location: "Buenos Aires, Argentina",
-    url: "https://example.com/cmf-la-2026",
-    category: "critical",
-    description: "Workshops and panels on securing supply chains for critical minerals in Latin America."
-  },
-  {
-    title: "Mining Expo",
-    start: "2026-09-15",
-    end: "2026-09-17",
-    location: "Lima, Peru",
-    url: "https://example.com/mining-expo-2026",
-    category: "general",
-    description: "Exhibition of mining technologies, equipment and services."
-  }
-];
+const EVENTS = [];
 
 function parseIsoDate(d) {
   if (!d) return null;
@@ -665,104 +628,91 @@ function parseIsoDate(d) {
   return isNaN(t) ? null : t.getTime();
 }
 
-function formatEventDateRange(startIso, endIso) {
-  const s = parseIsoDate(startIso);
-  const e = parseIsoDate(endIso);
-  if (!s) return "";
-  if (!e || s === e) return new Date(s).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-  return `${new Date(s).toLocaleDateString(undefined, { month: "short", day: "numeric" })} — ${new Date(e).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`;
-}
-
-function renderEvents(filter = "all") {
+function renderEvents() {
   const container = document.getElementById("eventsList");
   const now = Date.now();
-  const filtered = EVENTS.filter((ev) => {
-    if (filter === "critical") return ev.category === "critical";
-    return true;
-  })
-    .map((ev) => ({ ...ev, ts: parseIsoDate(ev.start) || 0 }))
-    .filter((ev) => ev.ts === 0 || ev.ts >= now - 1000 * 60 * 60 * 24) // include upcoming or undated
+  const sorted = EVENTS
+    .map((ev) => ({ ...ev, ts: parseIsoDate(ev.start) || ev.timestamp || 0 }))
+    .filter((ev) => ev.ts === 0 || ev.ts >= now - 86400000)
     .sort((a, b) => a.ts - b.ts)
-    .slice(0, 10); // max 10
+    .slice(0, 15);
 
-  container.innerHTML = filtered
-    .map(
-      (ev) => `
-    <article class="event-card">
-      <h3><a href="${escapeHtml(ev.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ev.title)}</a></h3>
-      <div class="event-meta">
-        <span class="event-date">${escapeHtml(formatEventDateRange(ev.start, ev.end))}</span>
-        <span class="event-location">${escapeHtml(ev.location || "")}</span>
-        <span class="event-category">${escapeHtml(ev.category)}</span>
-      </div>
-      <p class="event-desc">${escapeHtml(ev.description || "")}</p>
-    </article>
-  `
-    )
-    .join("");
+  if (sorted.length === 0) {
+    container.innerHTML = '<div class="feed-error">No upcoming events found — check back soon.</div>';
+    return;
+  }
+
+  container.innerHTML = sorted.map((ev) => {
+    const d = ev.ts ? new Date(ev.ts) : null;
+    const month = d ? d.toLocaleDateString(undefined, { month: "short" }) : "–";
+    const day = d ? d.getDate() : "?";
+    const endTs = ev.end ? parseIsoDate(ev.end) : null;
+    const endStr = endTs && endTs !== ev.ts
+      ? ` – ${new Date(endTs).toLocaleDateString(undefined, { month: "short", day: "numeric" })}`
+      : "";
+    return `
+      <article class="event-card">
+        <div class="event-date-block">
+          <span class="event-month">${escapeHtml(month)}</span>
+          <span class="event-day">${day}${escapeHtml(endStr)}</span>
+        </div>
+        <div class="event-body">
+          <h3>${ev.url ? `<a href="${escapeHtml(ev.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ev.title)}</a>` : escapeHtml(ev.title)}</h3>
+          <div class="event-meta-row">
+            ${ev.location ? `<span class="event-location">${escapeHtml(ev.location)}</span>` : ""}
+            ${ev.source ? `<span class="event-source-tag">${escapeHtml(ev.source)}</span>` : ""}
+          </div>
+          ${ev.description ? `<p class="event-desc">${escapeHtml(ev.description)}</p>` : ""}
+        </div>
+      </article>`;
+  }).join("");
 }
 
-document.getElementById("eventsShowAll").addEventListener("click", (e) => {
-  document.getElementById("eventsShowAll").classList.add("active");
-  document.getElementById("eventsShowCritical").classList.remove("active");
-  renderEvents("all");
-});
-
-document.getElementById("eventsShowCritical").addEventListener("click", (e) => {
-  document.getElementById("eventsShowCritical").classList.add("active");
-  document.getElementById("eventsShowAll").classList.remove("active");
-  renderEvents("critical");
-});
-
-// Initial render
-renderEvents();
-
-// External event sources to scan (examples)
 const EVENT_SOURCES = [
-  { id: "mining_events", name: "Mining.com Events", url: "https://www.mining.com/events/" },
-  { id: "panorama_events", name: "Panorama Minero Events", url: "https://panoramaminero.com/" },
-  { id: "eventbrite_mining", name: "Eventbrite Mining (search)", url: "https://www.eventbrite.com/d/online/mining--events/" }
+  { id: "mining_events", name: "Mining.com", url: "https://www.mining.com/events/" },
+  { id: "minesandmoney", name: "Mines & Money", url: "https://www.minesandmoney.com/events/" },
+  { id: "mining_weekly", name: "Mining Weekly", url: "https://www.miningweekly.com/events" },
+  { id: "panorama_events", name: "Panorama Minero", url: "https://panoramaminero.com/" }
 ];
 
 function parseEventsFromHtml(html, baseHost) {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const found = [];
 
-  // Look for article-like nodes or common event containers
-  const candidates = doc.querySelectorAll('article, .event, .evento, .noticia, .card, .list-item, [role="article"]');
+  const candidates = doc.querySelectorAll('article, .event, .evento, .card, .list-item, [role="article"]');
   candidates.forEach((el) => {
     const a = el.querySelector('a[href]');
-    const title = a ? a.textContent.trim() : el.querySelector('h3, h2, .title') && el.querySelector('h3, h2, .title').textContent.trim();
-    if (!title) return;
+    const titleEl = el.querySelector('h3, h2, h4, .title');
+    const rawTitle = a ? a.textContent.trim() : (titleEl ? titleEl.textContent.trim() : "");
+    if (!rawTitle || rawTitle.length < 10) return;
     const href = a ? a.getAttribute('href') : null;
-    const link = href ? (href.startsWith('http') ? href : `${baseHost.replace(/\/+$|\/$/, '')}${href.startsWith('/') ? '' : '/'}${href}`) : '';
+    const link = href ? (href.startsWith('http') ? href : `${baseHost.replace(/\/+$/, '')}${href.startsWith('/') ? '' : '/'}${href}`) : '';
 
-    // date heuristics
     let ts = null;
     const timeEl = el.querySelector('time[datetime], time');
     if (timeEl) ts = parseDateString(timeEl.getAttribute('datetime') || timeEl.textContent);
     if (!ts) {
-      const dateEl = el.querySelector('.date, .fecha, .event-date, .meta-date');
+      const dateEl = el.querySelector('.date, .fecha, .event-date, .meta-date, .event-time');
       if (dateEl) ts = parseDateString(dateEl.getAttribute('datetime') || dateEl.textContent);
     }
-
-    // fallback: look at text of first paragraph
     if (!ts) {
-      const p = el.querySelector('p');
-      if (p) ts = parseDateString(p.textContent.split('\n')[0]);
+      const urlDate = link.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//) || link.match(/\/(\d{4})\/(\d{2})\//);
+      if (urlDate) {
+        const dt = new Date(`${urlDate[1]}-${urlDate[2]}-${urlDate[3] || "01"}`);
+        if (!isNaN(dt)) ts = dt.getTime();
+      }
     }
 
-    found.push({ title: title.replace(/\s+/g, ' '), link, timestamp: ts, date: ts ? formatDateTs(ts) : '' });
+    found.push({ title: rawTitle.replace(/\s+/g, ' '), link, timestamp: ts, date: ts ? formatDateTs(ts) : '' });
   });
 
-  // If nothing found, fall back to scanning links on the page
   if (found.length === 0) {
     doc.querySelectorAll('a[href]').forEach((a) => {
       const txt = (a.textContent || '').trim();
-      if (!txt || txt.length < 10) return;
-      const href = a.getAttribute('href');
-      const link = href.startsWith('http') ? href : `${baseHost.replace(/\/+$|\/$/, '')}${href.startsWith('/') ? '' : '/'}${href}`;
-      // try to detect a date near the link
+      if (!txt || txt.length < 15) return;
+      const href = a.getAttribute('href') || '';
+      if (!/event|conference|congress|expo|summit|forum|seminar/i.test(href + txt)) return;
+      const link = href.startsWith('http') ? href : `${baseHost.replace(/\/+$/, '')}${href.startsWith('/') ? '' : '/'}${href}`;
       const parent = a.closest('li, article, div');
       let ts = null;
       if (parent) {
@@ -778,64 +728,47 @@ function parseEventsFromHtml(html, baseHost) {
 
 async function fetchExternalEvents() {
   const imported = [];
-  // limit total site fetches to avoid excessive traffic
-  const sourcesToFetch = EVENT_SOURCES.slice(0, 3);
   await Promise.all(
-    sourcesToFetch.map(async (src) => {
+    EVENT_SOURCES.map(async (src) => {
       try {
         const res = await fetch(PROXY_BASE + encodeURIComponent(src.url));
         if (!res.ok) return;
         const html = await res.text();
         const items = parseEventsFromHtml(html, src.url);
-        // For items without timestamps, attempt article scrape for the first 10
-        const needDates = items.filter((it) => !it.timestamp).slice(0, 10);
+        const needDates = items.filter((it) => !it.timestamp).slice(0, 8);
         await Promise.all(
           needDates.map(async (it) => {
             if (!it.link) return;
             const ts = await fetchArticleDate(it.link);
-            if (ts) {
-              it.timestamp = ts;
-              it.date = formatDateTs(ts);
-            }
+            if (ts) { it.timestamp = ts; it.date = formatDateTs(ts); }
           })
         );
         items.forEach((it) => {
-          imported.push({ title: it.title, start: it.date || '', end: it.date || '', location: '', url: it.link, category: 'imported', timestamp: it.timestamp || 0, description: '' });
+          imported.push({ title: it.title, start: it.date || '', end: '', location: '', url: it.link, source: src.name, timestamp: it.timestamp || 0, description: '' });
         });
       } catch (err) {
-        console.warn('fetchExternalEvents error', err);
+        console.warn('fetchExternalEvents error', src.id, err);
       }
     })
   );
 
-  if (imported.length === 0) return 0;
-
-  // dedupe by url
   const existingUrls = new Set(EVENTS.map((e) => e.url));
   const newOnes = imported.filter((i) => i.url && !existingUrls.has(i.url));
   newOnes.forEach((n) => EVENTS.push(n));
-
-  // sort by timestamp and re-render (limit to 10 shown)
-  EVENTS.sort((a, b) => (parseIsoDate(a.start) || 0) - (parseIsoDate(b.start) || 0));
-  renderEvents();
+  EVENTS.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
   return newOnes.length;
 }
 
-document.getElementById('eventsImport').addEventListener('click', async () => {
-  const btn = document.getElementById('eventsImport');
-  btn.textContent = 'Importing...';
-  btn.disabled = true;
-  try {
-    const added = await fetchExternalEvents();
-    btn.textContent = added ? `Imported ${added}` : 'No new events found';
-  } catch (err) {
-    console.warn(err);
-    btn.textContent = 'Import failed';
+// Auto-load events on startup
+(async () => {
+  await fetchExternalEvents();
+  const ts = document.getElementById("eventsTimestamp");
+  if (EVENTS.length > 0) {
+    renderEvents();
+    ts.textContent = "Updated " + new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  } else {
+    document.getElementById("eventsList").innerHTML = '<div class="feed-error">Could not load events — check back shortly.</div>';
   }
-  setTimeout(() => {
-    btn.textContent = 'Import external events';
-    btn.disabled = false;
-  }, 4000);
-});
+})();
 
 // ── End Events / Calendar ─────────────────────────────────────
