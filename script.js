@@ -920,30 +920,38 @@ function parseEventsFromHtml(html, baseHost) {
 
 async function fetchExternalEvents() {
   const imported = [];
-  await Promise.all(
-    EVENT_SOURCES.map(async (src) => {
-      try {
-        const res = await fetch(PROXY_BASE + encodeURIComponent(src.url));
-        if (!res.ok) return;
-        const html = await res.text();
-        const items = parseEventsFromHtml(html, src.url);
-        const needDates = items.filter((it) => !it.timestamp).slice(0, 15);
-        await Promise.all(
-          needDates.map(async (it) => {
-            if (!it.link) return;
+  const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // Fetch sequentially in batches of 2 to avoid proxy rate limits
+  const BATCH = 2;
+  for (let i = 0; i < EVENT_SOURCES.length; i += BATCH) {
+    const batch = EVENT_SOURCES.slice(i, i + BATCH);
+    await Promise.all(
+      batch.map(async (src) => {
+        try {
+          const res = await fetch(PROXY_BASE + encodeURIComponent(src.url));
+          if (!res.ok) return;
+          const html = await res.text();
+          const items = parseEventsFromHtml(html, src.url);
+          // Limit article date-scraping to 4 per source to avoid hammering proxy
+          const needDates = items.filter((it) => !it.timestamp).slice(0, 4);
+          for (const it of needDates) {
+            if (!it.link) continue;
             const ts = await fetchArticleDate(it.link);
             if (ts) { it.timestamp = ts; it.date = formatDateTs(ts); }
-          })
-        );
-        items.forEach((it) => {
-          const isoStart = it.timestamp ? new Date(it.timestamp).toISOString().split("T")[0] : "";
-          imported.push({ title: it.title, start: isoStart, end: '', location: '', url: it.link, source: src.name, timestamp: it.timestamp || 0, description: '' });
-        });
-      } catch (err) {
-        console.warn('fetchExternalEvents error', src.id, err);
-      }
-    })
-  );
+            await delay(200);
+          }
+          items.forEach((it) => {
+            const isoStart = it.timestamp ? new Date(it.timestamp).toISOString().split("T")[0] : "";
+            imported.push({ title: it.title, start: isoStart, end: "", location: "", url: it.link, source: src.name, timestamp: it.timestamp || 0, description: "" });
+          });
+        } catch (err) {
+          console.warn("fetchExternalEvents error", src.id, err);
+        }
+      })
+    );
+    if (i + BATCH < EVENT_SOURCES.length) await delay(600);
+  }
 
   const existingUrls = new Set(EVENTS.map((e) => e.url));
   const newOnes = imported.filter((i) => i.url && !existingUrls.has(i.url));
