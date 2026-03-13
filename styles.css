@@ -494,6 +494,15 @@ main,
   gap: 0.7rem;
 }
 
+.events-iframe {
+  display: block;
+  width: 100%;
+  min-height: 600px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 0.85rem;
+}
+
 .event-card {
   display: flex;
   gap: 0;
