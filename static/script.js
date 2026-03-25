@@ -105,19 +105,24 @@ const flowSteps = [
     step: "1",
     title: "Read global demand",
     description:
-      "Track how energy transition, technology chains, geopolitics, and financial cycles reshape mineral demand."
+      "Track how energy transition, technology chains, geopolitics, and financial cycles reshape mineral demand.",
+    pdf: "static/Argentina_CRM_Strategy_Model2.xlsx",
+    download: true
   },
   {
     step: "2",
     title: "Map mineral ecosystems",
     description:
-      "Translate each demand signal into mineral-specific ecosystems with differentiated market, ESG, and risk dynamics."
+      "Translate each demand signal into mineral-specific ecosystems with differentiated market, ESG, and risk dynamics.",
+    pdf: "static/Argentina_CRM_Strategy_Model for Cu.xlsx",
+    download: true
   },
   {
     step: "3",
     title: "Define strategic response",
     description:
-      "Prioritize policy, infrastructure, and investment tools by mineral instead of applying one generic framework."
+      "Prioritize policy, infrastructure, and investment tools by mineral instead of applying one generic framework.",
+    pdf: "static/CRM_CircularEconomy_ReliabilityNote.pdf"
   },
   {
     step: "4",
@@ -226,9 +231,9 @@ const tickerItems = [
 // ── Spanish content ───────────────────────────────────────────────
 
 const flowSteps_es = [
-  { step: "1", title: "Leer la demanda global", description: "Seguir cómo la transición energética, las cadenas tecnológicas, la geopolítica y los ciclos financieros reconfiguran la demanda mineral." },
-  { step: "2", title: "Mapear ecosistemas minerales", description: "Traducir cada señal de demanda en ecosistemas específicos por mineral con dinámicas diferenciadas de mercado, ESG y riesgo." },
-  { step: "3", title: "Definir la respuesta estratégica", description: "Priorizar herramientas de política, infraestructura e inversión por mineral en lugar de aplicar un marco genérico." },
+  { step: "1", title: "Leer la demanda global", description: "Seguir cómo la transición energética, las cadenas tecnológicas, la geopolítica y los ciclos financieros reconfiguran la demanda mineral.", pdf: "static/Argentina_CRM_Strategy_Model2.xlsx", download: true },
+  { step: "2", title: "Mapear ecosistemas minerales", description: "Traducir cada señal de demanda en ecosistemas específicos por mineral con dinámicas diferenciadas de mercado, ESG y riesgo.", pdf: "static/Argentina_CRM_Strategy_Model for Cu.xlsx", download: true },
+  { step: "3", title: "Definir la respuesta estratégica", description: "Priorizar herramientas de política, infraestructura e inversión por mineral en lugar de aplicar un marco genérico.", pdf: "static/CRM_CircularEconomy_ReliabilityNote.pdf" },
   { step: "4", title: "Ejecutar federalmente", description: "Coordinar provincias, gobierno nacional y actores privados bajo una arquitectura institucional público-privada estable." }
 ];
 
@@ -722,15 +727,50 @@ function renderFlowSteps() {
   flowStepsNode.innerHTML = steps
     .map(
       (item) => `
-      <article class="flow-card">
+      <article class="flow-card${item.pdf ? " flow-card--pdf" : ""}" ${item.pdf ? `data-pdf="${item.pdf}"` : ""}${item.download ? ' data-download="true"' : ""}>
         <div class="flow-step">Step ${item.step}</div>
         <h3>${item.title}</h3>
         <p>${item.description}</p>
+        ${item.pdf ? `<span class="flow-card__pdf-hint">${item.download ? "Download Excel ↓" : "View report ↗"}</span>` : ""}
       </article>
     `
     )
     .join("");
 }
+
+flowStepsNode.addEventListener("click", (e) => {
+  const card = e.target.closest(".flow-card--pdf");
+  if (!card) return;
+  if (card.dataset.download) {
+    const a = document.createElement("a");
+    a.href = card.dataset.pdf;
+    a.download = card.dataset.pdf.split("/").pop();
+    a.click();
+  } else {
+    openPdfModal(card.dataset.pdf);
+  }
+});
+
+function openPdfModal(src) {
+  const modal = document.getElementById("pdfModal");
+  const iframe = document.getElementById("pdfModalFrame");
+  iframe.src = src;
+  modal.classList.add("pdf-modal--open");
+  document.body.style.overflow = "hidden";
+}
+
+function closePdfModal() {
+  const modal = document.getElementById("pdfModal");
+  const iframe = document.getElementById("pdfModalFrame");
+  modal.classList.remove("pdf-modal--open");
+  iframe.src = "";
+  document.body.style.overflow = "";
+}
+
+document.getElementById("pdfModalClose").addEventListener("click", closePdfModal);
+document.getElementById("pdfModal").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) closePdfModal();
+});
 
 function renderDemandCards(filter) {
   const source = currentLang === "es" ? demandMineralLinks_es : demandMineralLinks;

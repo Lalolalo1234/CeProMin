@@ -5,9 +5,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy static assets.
 COPY index.html /usr/share/nginx/html/index.html
-COPY styles.css /usr/share/nginx/html/styles.css
-COPY script.js /usr/share/nginx/html/script.js
-COPY logo.png /usr/share/nginx/html/logo.png
+COPY static/ /usr/share/nginx/html/static/
 
 EXPOSE 8080
 
