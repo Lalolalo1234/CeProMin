@@ -105,17 +105,13 @@ const flowSteps = [
     step: "1",
     title: "Read global demand",
     description:
-      "Track how energy transition, technology chains, geopolitics, and financial cycles reshape mineral demand.",
-    pdf: "static/Argentina_CRM_Strategy_Model2.xlsx",
-    download: true
+      "Track how energy transition, technology chains, geopolitics, and financial cycles reshape mineral demand."
   },
   {
     step: "2",
     title: "Map mineral ecosystems",
     description:
-      "Translate each demand signal into mineral-specific ecosystems with differentiated market, ESG, and risk dynamics.",
-    pdf: "static/Argentina_CRM_Strategy_Model for Cu.xlsx",
-    download: true
+      "Translate each demand signal into mineral-specific ecosystems with differentiated market, ESG, and risk dynamics."
   },
   {
     step: "3",
@@ -231,8 +227,8 @@ const tickerItems = [
 // ── Spanish content ───────────────────────────────────────────────
 
 const flowSteps_es = [
-  { step: "1", title: "Leer la demanda global", description: "Seguir cómo la transición energética, las cadenas tecnológicas, la geopolítica y los ciclos financieros reconfiguran la demanda mineral.", pdf: "static/Argentina_CRM_Strategy_Model2.xlsx", download: true },
-  { step: "2", title: "Mapear ecosistemas minerales", description: "Traducir cada señal de demanda en ecosistemas específicos por mineral con dinámicas diferenciadas de mercado, ESG y riesgo.", pdf: "static/Argentina_CRM_Strategy_Model for Cu.xlsx", download: true },
+  { step: "1", title: "Leer la demanda global", description: "Seguir cómo la transición energética, las cadenas tecnológicas, la geopolítica y los ciclos financieros reconfiguran la demanda mineral." },
+  { step: "2", title: "Mapear ecosistemas minerales", description: "Traducir cada señal de demanda en ecosistemas específicos por mineral con dinámicas diferenciadas de mercado, ESG y riesgo." },
   { step: "3", title: "Definir la respuesta estratégica", description: "Priorizar herramientas de política, infraestructura e inversión por mineral en lugar de aplicar un marco genérico.", pdf: "static/CRM_CircularEconomy_ReliabilityNote.pdf" },
   { step: "4", title: "Ejecutar federalmente", description: "Coordinar provincias, gobierno nacional y actores privados bajo una arquitectura institucional público-privada estable." }
 ];
