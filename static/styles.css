@@ -753,12 +753,12 @@ main,
 
 @keyframes marquee {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to { transform: translateX(-50%); }
 }
 
 @keyframes rise-in {
   from { transform: translateY(16px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes stagger-up {
@@ -859,3 +859,64 @@ main,
 .fusion-card:hover .fusion-card__cta {
   color: var(--accent);
 }
+
+/* ── Mining Demand Foresight ────────────────────────────────── */
+.foresight-table-wrap {
+  overflow-x: auto;
+  margin-top: 1.1rem;
+}
+
+.foresight-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  min-width: 560px;
+}
+
+.foresight-table th,
+.foresight-table td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  vertical-align: top;
+}
+
+.foresight-table th {
+  color: var(--ink);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--line);
+}
+
+.foresight-table tr:last-child td {
+  border-bottom: none;
+}
+
+.foresight-grid-spaced {
+  margin-top: 1.3rem;
+}
+
+.foresight-stat {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.05rem;
+  color: var(--accent);
+  margin: 0.5rem 0 0.7rem;
+  line-height: 1.2;
+}
+
+.foresight-subheading {
+  margin: 1.4rem 0 0;
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.foresight-source {
+  margin: 1.2rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+/* ── End Mining Demand Foresight ────────────────────────────── */

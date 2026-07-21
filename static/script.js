@@ -10,7 +10,7 @@ const i18n = {
     "hero-h1": "Global markets define mineral demand. Strategy defines what Argentina should mine.",
     "hero-p": "CeProMin is designed as the intelligence architecture that translates demand signals from global value chains into differentiated mineral policy, investment priorities, and coordinated federal execution.",
     "news-heading": "Live Mining News",
-    "news-loading": "Loading latest mining news\u2026",
+    "news-loading": "Loading latest mining news…",
     "strategic-heading": "Strategic Logic",
     "strategic-sub": "Demand-led mining model",
     "demand-heading": "Market Demand to Mineral Priorities",
@@ -31,58 +31,82 @@ const i18n = {
     "director-sub": "Leadership profile",
     "fusion-heading": "Fusion Energy Research",
     "fusion-sub": "AI foundation models for plasma science",
-    "fusion-intro": "IBM Research, UKAEA, and STFC Hartree Centre built TokaMind, the first AI foundation model for fusion plasma analysis. Fusion's commercial path will reshape global demand for lithium, tungsten, beryllium, and rare earth minerals \u2014 a direct strategic signal for Argentina's mineral priorities.",
+    "fusion-intro": "IBM Research, UKAEA, and STFC Hartree Centre built TokaMind, the first AI foundation model for fusion plasma analysis. Fusion's commercial path will reshape global demand for lithium, tungsten, beryllium, and rare earth minerals — a direct strategic signal for Argentina's mineral priorities.",
     "fusion-tokamind-label": "Foundation Model",
     "fusion-tokamind-desc": "9M-parameter model trained on MAST tokamak data. Harmonises 40 sensor signals, outperforms task-specific models, and recovers corrupted readings via masked pre-training.",
     "fusion-tokamark-label": "Benchmark Suite",
     "fusion-tokamark-desc": "14-task benchmark suite for plasma-analysis AI. TokaMind outperforms all task-specific baselines across the full suite.",
     "events-heading": "Upcoming Mining Events",
-    "events-loading": "Loading upcoming events\u2026",
+    "events-loading": "Loading upcoming events…",
     "card-market-signal": "Market signal",
     "card-demand-driver": "Demand driver",
     "card-mineral-priority": "Mineral priority",
     "card-strategic-response": "Strategic response",
+    "foresight-heading": "Mining Demand Foresight — Copper, Lithium & Rare Earths",
+    "foresight-sub": "2030 / 2040 / 2050 demand outlook",
+    "foresight-intro": "Internal foresight work quantifying global demand for the three minerals central to Argentina's mining strategy, benchmarked against IEA, S&P Global, Wood Mackenzie, ICSG, USGS and Adamas Intelligence, with source, year and scenario tagged on every figure.",
+    "foresight-th-mineral": "Mineral",
+    "foresight-th-base": "Base demand (2024-25)",
+    "foresight-th-2040": "2040 range",
+    "foresight-th-multiple": "Growth multiple",
+    "foresight-th-driver": "Best-quantified driver",
+    "foresight-cross-heading": "Cross-cutting signals",
+    "foresight-ar-lithium-heading": "Argentina — Lithium: producing & pipeline",
+    "foresight-ar-ree-heading": "Argentina — Rare Earths: exploration stage",
+    "foresight-sources": "Sources: IEA Global Critical Minerals Outlook 2025/2026, S&P Global, Wood Mackenzie, ICSG, USGS Mineral Commodity Summaries 2026, Adamas Intelligence, Rio Tinto / Lithium Argentina / Zijin company filings, Segemar, Panorama Minero, Buenos Aires Herald (2025-2026).",
     footer: "CeProMin concept portal aligned to a demand-led strategic model: markets generate mineral demand, and mineral demand should shape extraction strategy and policy."
   },
   es: {
-    "header-chip": "Portal de Prospectiva Estrat\u00e9gica",
+    "header-chip": "Portal de Prospectiva Estratégica",
     eyebrow: "Centro Argentino de Prospectiva Minera",
     "hero-h1": "Los mercados globales definen la demanda mineral. La estrategia define lo que Argentina debe extraer.",
-    "hero-p": "CeProMin est\u00e1 dise\u00f1ado como la arquitectura de inteligencia que traduce las se\u00f1ales de demanda de las cadenas de valor globales en pol\u00edtica mineral diferenciada, prioridades de inversi\u00f3n y ejecuci\u00f3n federal coordinada.",
+    "hero-p": "CeProMin está diseñado como la arquitectura de inteligencia que traduce las señales de demanda de las cadenas de valor globales en política mineral diferenciada, prioridades de inversión y ejecución federal coordinada.",
     "news-heading": "Noticias Mineras en Vivo",
-    "news-loading": "Cargando \u00faltimas noticias mineras\u2026",
-    "strategic-heading": "L\u00f3gica Estrat\u00e9gica",
+    "news-loading": "Cargando últimas noticias mineras…",
+    "strategic-heading": "Lógica Estratégica",
     "strategic-sub": "Modelo minero orientado por la demanda",
     "demand-heading": "Demanda de Mercado a Prioridades Minerales",
     "demand-sub": "Filtrar por cluster de demanda",
     "filter-all": "Todos los clusters",
-    "filter-electrification": "Electrificaci\u00f3n",
-    "filter-technology": "Tecnolog\u00eda y defensa",
+    "filter-electrification": "Electrificación",
+    "filter-technology": "Tecnología y defensa",
     "filter-financial": "Demanda financiera",
     "filter-agrochemical": "Demanda agroquímica",
-    "gaps-heading": "Brechas Estrat\u00e9gicas que CeProMin Aborda",
+    "gaps-heading": "Brechas Estratégicas que CeProMin Aborda",
     "gaps-sub": "Restricciones actuales en Argentina",
     "pillar-measure": "Medir",
     "pillar-anticipate": "Anticipar",
     "pillar-guide": "Guiar",
-    "outcomes-heading": "Impacto Estrat\u00e9gico Esperado",
-    "governance-heading": "Modelo de Ejecuci\u00f3n Institucional",
+    "outcomes-heading": "Impacto Estratégico Esperado",
+    "governance-heading": "Modelo de Ejecución Institucional",
     "director-heading": "Director del Programa",
     "director-sub": "Perfil de liderazgo",
-    "fusion-heading": "Investigaci\u00f3n en Energ\u00eda de Fusi\u00f3n",
+    "fusion-heading": "Investigación en Energía de Fusión",
     "fusion-sub": "Modelos fundacionales de IA para la ciencia del plasma",
-    "fusion-intro": "IBM Research, la UKAEA y el STFC Hartree Centre construyeron TokaMind, el primer modelo fundacional de IA para el an\u00e1lisis de plasma de fusi\u00f3n. La trayectoria comercial de la fusi\u00f3n redefinir\u00e1 la demanda global de litio, tungsteno, berilio y minerales de tierras raras \u2014 una se\u00f1al estrat\u00e9gica directa para las prioridades minerales de Argentina.",
+    "fusion-intro": "IBM Research, la UKAEA y el STFC Hartree Centre construyeron TokaMind, el primer modelo fundacional de IA para el análisis de plasma de fusión. La trayectoria comercial de la fusión redefinirá la demanda global de litio, tungsteno, berilio y minerales de tierras raras — una señal estratégica directa para las prioridades minerales de Argentina.",
     "fusion-tokamind-label": "Modelo Fundacional",
-    "fusion-tokamind-desc": "Modelo de 9M de par\u00e1metros entrenado con datos del tokamak MAST. Armoniza 40 se\u00f1ales de sensores, supera a los modelos por tarea y recupera lecturas corruptas mediante pre-entrenamiento enmascarado.",
-    "fusion-tokamark-label": "Suite de Evaluaci\u00f3n",
-    "fusion-tokamark-desc": "Suite de 14 tareas para IA de an\u00e1lisis de plasma. TokaMind supera a todos los modelos base espec\u00edficos en la suite completa.",
-    "events-heading": "Pr\u00f3ximos Eventos Mineros",
-    "events-loading": "Cargando pr\u00f3ximos eventos\u2026",
-    "card-market-signal": "Se\u00f1al de mercado",
+    "fusion-tokamind-desc": "Modelo de 9M de parámetros entrenado con datos del tokamak MAST. Armoniza 40 señales de sensores, supera a los modelos por tarea y recupera lecturas corruptas mediante pre-entrenamiento enmascarado.",
+    "fusion-tokamark-label": "Suite de Evaluación",
+    "fusion-tokamark-desc": "Suite de 14 tareas para IA de análisis de plasma. TokaMind supera a todos los modelos base específicos en la suite completa.",
+    "events-heading": "Próximos Eventos Mineros",
+    "events-loading": "Cargando próximos eventos…",
+    "card-market-signal": "Señal de mercado",
     "card-demand-driver": "Motor de demanda",
     "card-mineral-priority": "Prioridad mineral",
-    "card-strategic-response": "Respuesta estrat\u00e9gica",
-    footer: "Portal de concepto CeProMin alineado a un modelo minero orientado por la demanda: los mercados generan demanda mineral, y la demanda mineral debe orientar la estrategia de extracci\u00f3n y la pol\u00edtica p\u00fablica."
+    "card-strategic-response": "Respuesta estratégica",
+    "foresight-heading": "Prospectiva de Demanda Minera — Cobre, Litio y Tierras Raras",
+    "foresight-sub": "Perspectiva de demanda 2030 / 2040 / 2050",
+    "foresight-intro": "Trabajo de prospectiva propio que cuantifica la demanda global de los tres minerales centrales de la estrategia minera argentina, contrastado contra IEA, S&P Global, Wood Mackenzie, ICSG, USGS y Adamas Intelligence, con fuente, año y escenario en cada cifra.",
+    "foresight-th-mineral": "Mineral",
+    "foresight-th-base": "Demanda base (2024-25)",
+    "foresight-th-2040": "Rango 2040",
+    "foresight-th-multiple": "Múltiplo de crecimiento",
+    "foresight-th-driver": "Driver mejor cuantificado",
+    "foresight-cross-heading": "Señales transversales",
+    "foresight-ar-lithium-heading": "Argentina — Litio: en producción y en cartera",
+    "foresight-ar-ree-heading": "Argentina — Tierras Raras: etapa de exploración",
+    "foresight-sources": "Fuentes: IEA Global Critical Minerals Outlook 2025/2026, S&P Global, Wood Mackenzie, ICSG, USGS Mineral Commodity Summaries 2026, Adamas Intelligence, informes de Rio Tinto / Lithium Argentina / Zijin, Segemar, Panorama Minero, Buenos Aires Herald (2025-2026).",
+    footer: "Portal de concepto CeProMin alineado a un modelo minero orientado por la demanda: los mercados generan demanda mineral, y la demanda mineral debe orientar la estrategia de extracción y la política pública."
   }
 };
 
@@ -107,6 +131,11 @@ function setLanguage(lang) {
   renderList(outcomesList, lang === "es" ? outcomes_es : outcomes);
   renderList(governanceList, lang === "es" ? governance_es : governance);
   directorProfileNode.textContent = lang === "es" ? directorProfile_es : directorProfile;
+  renderForesightTable(lang);
+  renderForesightMinerals(lang);
+  renderList(foresightCrossList, lang === "es" ? foresightCross_es : foresightCross);
+  renderList(foresightLithiumList, lang === "es" ? foresightLithium_es : foresightLithium);
+  renderList(foresightReeList, lang === "es" ? foresightRee_es : foresightRee);
   const btn = document.getElementById("langToggle");
   btn.textContent = lang === "en" ? "ES" : "EN";
   btn.title = lang === "en" ? "Cambiar a español" : "Switch to English";
@@ -238,6 +267,89 @@ const tickerItems = [
   "Federal execution builds long-term reliability"
 ];
 
+// ── Mining Demand Foresight content (EN) ──────────────────────────
+
+const foresightComparison = [
+  {
+    mineral: "Copper",
+    base: "25–28 Mt",
+    range2040: "42–43 Mt",
+    multiple: "~1.5–2x",
+    driver: "Grid electrification + EVs"
+  },
+  {
+    mineral: "Lithium",
+    base: "1.3–1.8 Mt LCE",
+    range2040: "5.6–13.2 Mt LCE",
+    multiple: "~3–4x (highest of the three)",
+    driver: "EV batteries (72–80% of demand by 2050)"
+  },
+  {
+    mineral: "Rare earths (magnets)",
+    base: "91–197 kt (scope-dependent)",
+    range2040: "123–150 kt by 2030*",
+    multiple: "~1.3–1.6x",
+    driver: "NdFeB magnets for EVs + offshore wind"
+  }
+];
+
+const foresightMinerals = [
+  {
+    name: "Copper",
+    stat: "42–43 Mt by 2040",
+    bullets: [
+      "Grid electrification alone reaches ~13 Mt/yr by 2030 and ~23 Mt/yr by 2050 (BNEF NZE).",
+      "AI/datacenter demand is the most dispersed estimate of any sector — over 4x range between sources.",
+      "Argentina's four advanced projects (Josemaría, Filo del Sol, Los Azules, Pachón) enter production 2027–2030, aligned with the best-quantified drivers."
+    ]
+  },
+  {
+    name: "Lithium",
+    stat: "3–4x growth by 2040 — fastest of the three",
+    bullets: [
+      "88% of global demand is battery-bound (USGS), with no official breakdown of the remaining sub-uses.",
+      "Stationary storage is the “sleeper” driver: qualitatively strong, but with no reliable tonnage series from any source.",
+      "Argentina is the 4th global producer and the most demand-concentrated of the three minerals — nearly the whole market rides a single electrification curve."
+    ]
+  },
+  {
+    name: "Rare Earths",
+    stat: "China controls 85–94% of magnet production",
+    bullets: [
+      "Nd-Pr-Dy-Tb (magnet elements) face structural scarcity while La-Ce (catalysts, glass) are in structural surplus — same ore, opposite price dynamics.",
+      "REE-free traction motors are already in pilot production (Tesla, BMW, Renault) — the only material of the three with a documented substitution escape valve.",
+      "Argentina has no production yet; the opportunity is framed as security-of-supply for magnet elements vs. an offtake challenge for surplus byproducts."
+    ]
+  }
+];
+
+const foresightCross = [
+  "EVs and offshore wind are the only two demand drivers with solid, quantified data shared across all three minerals.",
+  "AI/datacenter demand is strong for copper, qualitative-only for rare earths, and absent for lithium.",
+  "Defense demand systematically hides inside “civilian” trade categories rather than appearing as its own line item, in both copper and rare earths.",
+  "2050 is the weakest-data horizon for all three minerals; the choice of climate-policy scenario matters more than any single technology assumption."
+];
+
+const foresightLithium = [
+  "Producing (~186,000 t/yr LCE installed, 7 plants): Fénix / Hombre Muerto (Catamarca), Olaroz (Jujuy, 42,400 t/yr), Cauchari-Olaroz (Jujuy, commercial since Oct. 2024, ~35–40kt in 2026), Sal de Oro and Centenario-Ratones (Salta), Mariana (Salta, 20,000 t/yr), Tres Quebradas (Catamarca, Phase 2 approved July 2026, +40,000 t/yr).",
+  "Ramping up: Rincón (Salta, Rio Tinto) shipped its first export cargo in March 2026, targeting 60,000 t/yr by 2028.",
+  "Near-term (2026–2027): Sal de Vida Phase 1 (15,000 t/yr) and Fénix 1B (10,000 t/yr), both Catamarca; Sal de los Ángeles (Salta, 10,000 t/yr).",
+  "Medium-term (2028–2029): Pozuelos-Pastos Grandes JV (up to 150,000 t/yr capacity), Rincón at full scale.",
+  "Longer term (2030–2033): Kachi, Candelas, HM South and further expansion phases.",
+  "Government target: 15 plants and ~650,000 t/yr installed capacity by 2035 — enough for Argentina to reach the world's top 3 producers."
+];
+
+const foresightRee = [
+  "Segemar has identified 19 REE occurrences across Jujuy, Salta, La Rioja and northern Mendoza, totaling 190,395 t of inferred/low-certainty TREO — undiscovered potential estimated at up to 3.3 Mt.",
+  "No project has defined a reserve yet.",
+  "Litica Resources holds ~320,000 ha across the Lithium Triangle, with an environmental impact study underway (pre-permitting stage).",
+  "A February 2026 tripartite agreement (American Minerals, provincial EMSE, and Segemar) is funding REE prospecting in La Rioja and Salta.",
+  "Argentina Metals holds a 146,000 ha exploration portfolio.",
+  "Industry experts estimate 5–10 years just to establish solid, internationally-standard resource estimates."
+];
+
+// ── End Spanish-independent Foresight content ─────────────────────
+
 // ── Spanish content ───────────────────────────────────────────────
 
 const flowSteps_es = [
@@ -310,6 +422,87 @@ const tickerItems_es = [
 
 const directorProfile_es = "Juan Eduardo Barrera es Doctor en Ingeniería de Minas por la Universidad Politécnica de Madrid, diploma del PNUMA, y cuenta con más de 30 años de experiencia en organizaciones como el Banco Mundial, BID, ONU, BERD y la UE, combinando liderazgo en política minera, finanzas de proyectos y asesoría estratégica internacional.";
 
+// ── Mining Demand Foresight content (ES) ──────────────────────────
+
+const foresightComparison_es = [
+  {
+    mineral: "Cobre",
+    base: "25–28 Mt",
+    range2040: "42–43 Mt",
+    multiple: "~1,5–2x",
+    driver: "Electrificación de red + VE"
+  },
+  {
+    mineral: "Litio",
+    base: "1,3–1,8 Mt LCE",
+    range2040: "5,6–13,2 Mt LCE",
+    multiple: "~3–4x (la más alta de los tres)",
+    driver: "Baterías de VE (72–80% de la demanda hacia 2050)"
+  },
+  {
+    mineral: "Tierras raras (imanes)",
+    base: "91–197 kt (según alcance)",
+    range2040: "123–150 kt hacia 2030*",
+    multiple: "~1,3–1,6x",
+    driver: "Imanes NdFeB para VE + eólica offshore"
+  }
+];
+
+const foresightMinerals_es = [
+  {
+    name: "Cobre",
+    stat: "42–43 Mt hacia 2040",
+    bullets: [
+      "La electrificación de red por sí sola llega a ~13 Mt/año hacia 2030 y ~23 Mt/año hacia 2050 (BNEF NZE).",
+      "La demanda de datacenters/IA es la estimación más dispersa de cualquier sector — rango de más de 4x entre fuentes.",
+      "Los cuatro proyectos avanzados de Argentina (Josemaría, Filo del Sol, Los Azules, Pachón) entran en producción 2027–2030, alineados con los drivers mejor cuantificados."
+    ]
+  },
+  {
+    name: "Litio",
+    stat: "Crecimiento de 3–4x hacia 2040 — el más alto de los tres",
+    bullets: [
+      "El 88% de la demanda global depende de baterías (USGS), sin desagregación oficial de los usos internos.",
+      "El almacenamiento estacionario es el driver “sleeper”: sólido cualitativamente, pero sin serie de tonelaje confiable en ninguna fuente.",
+      "Argentina es el 4º productor mundial y el más concentrado en demanda de los tres minerales — casi todo el mercado depende de una sola curva de electrificación."
+    ]
+  },
+  {
+    name: "Tierras Raras",
+    stat: "China controla 85–94% de la producción de imanes",
+    bullets: [
+      "Nd-Pr-Dy-Tb (elementos de imán) enfrentan escasez estructural mientras que La-Ce (catalizadores, vidrio) están en superávit estructural — mismo mineral, dinámicas de precio opuestas.",
+      "Ya existen motores de tracción sin tierras raras en producción piloto (Tesla, BMW, Renault) — el único de los tres materiales con una válvula de escape de sustitución documentada.",
+      "Argentina no tiene producción todavía; la oportunidad se plantea como seguridad de suministro para los elementos de imán vs. un desafío de mercado de salida para los subproductos en superávit."
+    ]
+  }
+];
+
+const foresightCross_es = [
+  "VE y eólica offshore son los únicos dos drivers de demanda con datos sólidos y cuantificados compartidos por los tres minerales.",
+  "La demanda de datacenters/IA es fuerte en cobre, solo cualitativa en tierras raras, y ausente en litio.",
+  "La demanda de defensa se oculta sistemáticamente dentro de categorías “civiles” en vez de aparecer como línea propia, tanto en cobre como en tierras raras.",
+  "2050 es el horizonte con menos datos para los tres minerales; la elección de escenario de política climática pesa más que cualquier supuesto tecnológico."
+];
+
+const foresightLithium_es = [
+  "En producción (~186.000 t/año LCE instaladas, 7 plantas): Fénix / Hombre Muerto (Catamarca), Olaroz (Jujuy, 42.400 t/año), Cauchari-Olaroz (Jujuy, producción comercial desde oct. 2024, ~35–40 mil t en 2026), Sal de Oro y Centenario-Ratones (Salta), Mariana (Salta, 20.000 t/año), Tres Quebradas (Catamarca, Fase 2 aprobada en julio 2026, +40.000 t/año).",
+  "En rampa: Rincón (Salta, Rio Tinto) despachó su primer cargamento de exportación en marzo 2026, con meta de 60.000 t/año hacia 2028.",
+  "Corto plazo (2026–2027): Sal de Vida Fase 1 (15.000 t/año) y Fénix 1B (10.000 t/año), ambos en Catamarca; Sal de los Ángeles (Salta, 10.000 t/año).",
+  "Mediano plazo (2028–2029): JV Pozuelos-Pastos Grandes (hasta 150.000 t/año de capacidad), Rincón a escala plena.",
+  "Más largo plazo (2030–2033): Kachi, Candelas, HM South y nuevas fases de expansión.",
+  "Meta oficial: 15 plantas y ~650.000 t/año de capacidad instalada hacia 2035 — suficiente para ubicar a Argentina entre los 3 principales productores mundiales."
+];
+
+const foresightRee_es = [
+  "Segemar identificó 19 ocurrencias de tierras raras en Jujuy, Salta, La Rioja y el norte de Mendoza, totalizando 190.395 t de recursos TREO inferidos/de baja certeza — potencial no descubierto estimado en hasta 3,3 Mt.",
+  "Ningún proyecto definió todavía una reserva.",
+  "Litica Resources posee ~320.000 ha en el Triángulo del Litio, con un estudio de impacto ambiental en curso (etapa de pre-permisos).",
+  "Un acuerdo tripartito de febrero 2026 (American Minerals, la EMSE provincial y Segemar) financia la prospección de tierras raras en La Rioja y Salta.",
+  "Argentina Metals posee un portafolio de exploración de 146.000 ha.",
+  "Expertos del sector estiman de 5 a 10 años solo para establecer estimaciones de recursos sólidas y bajo estándares internacionales."
+];
+
 // ── End Spanish content ───────────────────────────────────────────
 
 // ── Live Mining News (multiple sources) ──────────────────────────
@@ -323,7 +516,6 @@ const FEEDS = [
   { id: "mining", name: "Mining.com", url: "https://www.mining.com/", label: "Mining.com" },
   { id: "panorama", name: "Panorama Minero", url: "https://panoramaminero.com/", label: "Panorama Minero" }
 ];
-
 
 function escapeHtml(str) {
   return String(str)
@@ -598,8 +790,6 @@ function parsePanoramaMineroItems(html, baseHost) {
   return parseGenericItems(html, baseHost);
 }
 
-
-
 // Combined feed state and pagination
 let combinedItems = [];
 const ITEMS_PER_PAGE = 10;
@@ -688,12 +878,12 @@ function renderCombinedPage(page) {
     slice
       .map(
         (item) => `
-      <a class="feed-item" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
-        <p class="feed-item-title">${escapeHtml(item.title)}</p>
-        <span class="feed-item-source">${escapeHtml(item.source)}</span>
-        <span class="feed-item-date">${escapeHtml(item.date)}</span>
-      </a>
-    `
+    <a class="feed-item" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
+      <p class="feed-item-title">${escapeHtml(item.title)}</p>
+      <span class="feed-item-source">${escapeHtml(item.source)}</span>
+      <span class="feed-item-date">${escapeHtml(item.date)}</span>
+    </a>
+  `
       )
       .join("") || `<div class="feed-empty">No items available.</div>`;
 
@@ -713,7 +903,6 @@ function renderCombinedPage(page) {
   });
 }
 
-
 // ── End Live Mining News ─────────────────────────────────────────
 
 const directorProfile =
@@ -731,19 +920,24 @@ const tickerTrack = document.getElementById("tickerTrack");
 const currentDate = document.getElementById("currentDate");
 const directorProfileNode = document.getElementById("directorProfile");
 const filterButtons = document.querySelectorAll(".filter-btn");
+const foresightTableBody = document.getElementById("foresightTableBody");
+const foresightMineralsGrid = document.getElementById("foresightMineralsGrid");
+const foresightCrossList = document.getElementById("foresightCrossList");
+const foresightLithiumList = document.getElementById("foresightLithiumList");
+const foresightReeList = document.getElementById("foresightReeList");
 
 function renderFlowSteps() {
   const steps = currentLang === "es" ? flowSteps_es : flowSteps;
   flowStepsNode.innerHTML = steps
     .map(
       (item) => `
-      <article class="flow-card${item.pdf ? " flow-card--pdf" : ""}" ${item.pdf ? `data-pdf="${item.pdf}"` : ""}${item.download ? ' data-download="true"' : ""}>
-        <div class="flow-step">Step ${item.step}</div>
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        ${item.pdf ? `<span class="flow-card__pdf-hint">${item.download ? "Download Excel ↓" : "View report ↗"}</span>` : ""}
-      </article>
-    `
+    <article class="flow-card${item.pdf ? " flow-card--pdf" : ""}" ${item.pdf ? `data-pdf="${item.pdf}"` : ""}${item.download ? ' data-download="true"' : ""}>
+      <div class="flow-step">Step ${item.step}</div>
+      <h3>${item.title}</h3>
+      <p>${item.description}</p>
+      ${item.pdf ? `<span class="flow-card__pdf-hint">${item.download ? "Download Excel ↓" : "View report ↗"}</span>` : ""}
+    </article>
+  `
     )
     .join("");
 }
@@ -789,15 +983,15 @@ function renderDemandCards(filter) {
   newsGrid.innerHTML = selected
     .map(
       (item) => `
-      <article class="news-card">
-        <div class="meta">${t["card-market-signal"]}</div>
-        <h3>${item.title}</h3>
-        <p><strong>${t["card-demand-driver"]}:</strong> ${item.marketNeed}</p>
-        <p><strong>${t["card-mineral-priority"]}:</strong> ${item.minerals}</p>
-        <p><strong>${t["card-strategic-response"]}:</strong> ${item.response}</p>
-        <span class="tag">${item.category}</span>
-      </article>
-    `
+    <article class="news-card">
+      <div class="meta">${t["card-market-signal"]}</div>
+      <h3>${item.title}</h3>
+      <p><strong>${t["card-demand-driver"]}:</strong> ${item.marketNeed}</p>
+      <p><strong>${t["card-mineral-priority"]}:</strong> ${item.minerals}</p>
+      <p><strong>${t["card-strategic-response"]}:</strong> ${item.response}</p>
+      <span class="tag">${item.category}</span>
+    </article>
+  `
     )
     .join("");
 }
@@ -810,6 +1004,38 @@ function renderTicker() {
 
 function renderList(targetNode, items) {
   targetNode.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
+}
+
+function renderForesightTable(lang) {
+  const rows = lang === "es" ? foresightComparison_es : foresightComparison;
+  foresightTableBody.innerHTML = rows
+    .map(
+      (r) => `
+    <tr>
+      <td>${r.mineral}</td>
+      <td>${r.base}</td>
+      <td>${r.range2040}</td>
+      <td>${r.multiple}</td>
+      <td>${r.driver}</td>
+    </tr>
+  `
+    )
+    .join("");
+}
+
+function renderForesightMinerals(lang) {
+  const items = lang === "es" ? foresightMinerals_es : foresightMinerals;
+  foresightMineralsGrid.innerHTML = items
+    .map(
+      (item) => `
+    <article class="framework-card">
+      <h3>${item.name}</h3>
+      <p class="foresight-stat">${item.stat}</p>
+      <ul class="flat-list">${item.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>
+    </article>
+  `
+    )
+    .join("");
 }
 
 function setCurrentDate() {
@@ -845,6 +1071,11 @@ renderList(architectureList, guidePillar);
 renderList(outcomesList, outcomes);
 renderList(governanceList, governance);
 directorProfileNode.textContent = directorProfile;
+renderForesightTable("en");
+renderForesightMinerals("en");
+renderList(foresightCrossList, foresightCross);
+renderList(foresightLithiumList, foresightLithium);
+renderList(foresightReeList, foresightRee);
 
 fetchAllFeeds();
 setInterval(fetchAllFeeds, REFRESH_INTERVAL_MS);
