@@ -51,6 +51,7 @@ const i18n = {
     "foresight-th-multiple": "Growth multiple",
     "foresight-th-driver": "Best-quantified driver",
     "foresight-cross-heading": "Cross-cutting signals",
+    "foresight-ar-copper-heading": "Argentina — Copper: artisanal-scale today, global-scale pipeline",
     "foresight-ar-lithium-heading": "Argentina — Lithium: producing & pipeline",
     "foresight-ar-ree-heading": "Argentina — Rare Earths: exploration stage",
     "foresight-sources": "Sources: IEA Global Critical Minerals Outlook 2025/2026, S&P Global, Wood Mackenzie, ICSG, USGS Mineral Commodity Summaries 2026, Adamas Intelligence, Rio Tinto / Lithium Argentina / Zijin company filings, Segemar, Panorama Minero, Buenos Aires Herald (2025-2026).",
@@ -103,6 +104,7 @@ const i18n = {
     "foresight-th-multiple": "Múltiplo de crecimiento",
     "foresight-th-driver": "Driver mejor cuantificado",
     "foresight-cross-heading": "Señales transversales",
+    "foresight-ar-copper-heading": "Argentina — Cobre: escala artesanal hoy, cartera de escala global",
     "foresight-ar-lithium-heading": "Argentina — Litio: en producción y en cartera",
     "foresight-ar-ree-heading": "Argentina — Tierras Raras: etapa de exploración",
     "foresight-sources": "Fuentes: IEA Global Critical Minerals Outlook 2025/2026, S&P Global, Wood Mackenzie, ICSG, USGS Mineral Commodity Summaries 2026, Adamas Intelligence, informes de Rio Tinto / Lithium Argentina / Zijin, Segemar, Panorama Minero, Buenos Aires Herald (2025-2026).",
@@ -134,6 +136,7 @@ function setLanguage(lang) {
   renderForesightTable(lang);
   renderForesightMinerals(lang);
   renderList(foresightCrossList, lang === "es" ? foresightCross_es : foresightCross);
+  renderList(foresightCopperList, lang === "es" ? foresightCopper_es : foresightCopper);
   renderList(foresightLithiumList, lang === "es" ? foresightLithium_es : foresightLithium);
   renderList(foresightReeList, lang === "es" ? foresightRee_es : foresightRee);
   const btn = document.getElementById("langToggle");
@@ -330,6 +333,15 @@ const foresightCross = [
   "2050 is the weakest-data horizon for all three minerals; the choice of climate-policy scenario matters more than any single technology assumption."
 ];
 
+const foresightCopper = [
+  "Today's only operating mine is small: Martín Bronce (Sierra de Santa Bárbara, Jujuy), 100% Jujuy-capital (MOM Mining), exports exceptionally high-grade ore/concentrate (5–14% Cu vs. ~0.5% average in Chile) to Chile; a concentration plant is now under construction, with an estimated 18–20 years of resource life on the current 28 ha.",
+  "Vicuña District — Josemaría + Filo del Sol (San Juan, BHP/Lundin Mining JV): $7B initial investment, capital deployment from 2027, first production targeted for 2030; expected to average ~395,000 t/yr of copper (plus gold and silver) over its first 25 years — one of the largest new copper districts in the world.",
+  "Los Azules (San Juan, McEwen Copper — backed by Stellantis and Rio Tinto): designed as a low-carbon operation (conveyor haulage, renewable/hydro power); targeting ~150,000 t/yr of copper cathode via SX-EW, among the world's top 25 copper mines once in production.",
+  "El Pachón (San Juan, Glencore): discovered in 1964, one of the largest undeveloped porphyry deposits globally; RIGI approval expected H1 2027, construction start 2029, first production 2034, ~280,000 t/yr.",
+  "Taca Taca (Salta, First Quantum Minerals): $3.6–5.2B investment, ~227,000 t/yr of copper via flotation, concentrate to be shipped by rail through the port of Mejillones, Chile (permits expected late 2026).",
+  "Combined, these four advanced projects could put Argentina among the world's top copper producers by the early-to-mid 2030s; RIGI's committed investment is already ~95% concentrated in copper and lithium."
+];
+
 const foresightLithium = [
   "Producing (~186,000 t/yr LCE installed, 7 plants): Fénix / Hombre Muerto (Catamarca), Olaroz (Jujuy, 42,400 t/yr), Cauchari-Olaroz (Jujuy, commercial since Oct. 2024, ~35–40kt in 2026), Sal de Oro and Centenario-Ratones (Salta), Mariana (Salta, 20,000 t/yr), Tres Quebradas (Catamarca, Phase 2 approved July 2026, +40,000 t/yr).",
   "Ramping up: Rincón (Salta, Rio Tinto) shipped its first export cargo in March 2026, targeting 60,000 t/yr by 2028.",
@@ -483,6 +495,15 @@ const foresightCross_es = [
   "La demanda de datacenters/IA es fuerte en cobre, solo cualitativa en tierras raras, y ausente en litio.",
   "La demanda de defensa se oculta sistemáticamente dentro de categorías “civiles” en vez de aparecer como línea propia, tanto en cobre como en tierras raras.",
   "2050 es el horizonte con menos datos para los tres minerales; la elección de escenario de política climática pesa más que cualquier supuesto tecnológico."
+];
+
+const foresightCopper_es = [
+  "La única mina en explotación hoy es pequeña: Martín Bronce (Sierra de Santa Bárbara, Jujuy), de capital 100% jujeño (MOM Mining), exporta a Chile mineral/concentrado de altísima ley (5–14% Cu frente a ~0,5% de promedio en Chile); ya está en construcción una planta de concentración, con una vida útil estimada de 18 a 20 años sobre las 28 ha actuales.",
+  "Distrito Vicuña — Josemaría + Filo del Sol (San Juan, JV BHP/Lundin Mining): inversión inicial de US$7.000 M, despliegue de capital desde 2027, primera producción prevista para 2030; se espera un promedio de ~395.000 t/año de cobre (más oro y plata) durante sus primeros 25 años — uno de los distritos de cobre nuevos más grandes del mundo.",
+  "Los Azules (San Juan, McEwen Copper — respaldada por Stellantis y Rio Tinto): diseñado como operación de bajo carbono (transporte por cinta, energía renovable/hidroeléctrica); apunta a ~150.000 t/año de cátodo de cobre vía SX-EW, entre las 25 mayores minas de cobre del mundo una vez en producción.",
+  "El Pachón (San Juan, Glencore): descubierto en 1964, uno de los mayores yacimientos pórfidos sin desarrollar del mundo; aprobación RIGI esperada en el primer semestre de 2027, inicio de construcción en 2029, primera producción en 2034, ~280.000 t/año.",
+  "Taca Taca (Salta, First Quantum Minerals): inversión de US$3.600–5.200 M, ~227.000 t/año de cobre vía flotación, concentrado a exportar por ferrocarril a través del puerto de Mejillones, Chile (permisos esperados a fines de 2026).",
+  "En conjunto, estos cuatro proyectos avanzados podrían ubicar a Argentina entre los mayores productores mundiales de cobre hacia inicios/mediados de la década de 2030; el monto comprometido del RIGI ya está concentrado en ~95% en cobre y litio."
 ];
 
 const foresightLithium_es = [
@@ -923,6 +944,7 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 const foresightTableBody = document.getElementById("foresightTableBody");
 const foresightMineralsGrid = document.getElementById("foresightMineralsGrid");
 const foresightCrossList = document.getElementById("foresightCrossList");
+const foresightCopperList = document.getElementById("foresightCopperList");
 const foresightLithiumList = document.getElementById("foresightLithiumList");
 const foresightReeList = document.getElementById("foresightReeList");
 
@@ -1074,6 +1096,7 @@ directorProfileNode.textContent = directorProfile;
 renderForesightTable("en");
 renderForesightMinerals("en");
 renderList(foresightCrossList, foresightCross);
+renderList(foresightCopperList, foresightCopper);
 renderList(foresightLithiumList, foresightLithium);
 renderList(foresightReeList, foresightRee);
 
