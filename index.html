@@ -1,188 +1,228 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CeProMin | Argentine Mining Strategic Foresight Center</title>
-    <meta
-      name="description"
-      content="CeProMin is a strategic platform to measure, anticipate, and guide mining development in Argentina with a federal and sustainability-focused vision."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="static/styles.css" />
-  </head>
-  <body>
-    <div class="background-grid" aria-hidden="true"></div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CeProMin | Argentine Mining Strategic Foresight Center</title>
+<meta
+  name="description"
+  content="CeProMin is a strategic platform to measure, anticipate, and guide mining development in Argentina with a federal and sustainability-focused vision."
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="static/styles.css" />
+</head>
+<body>
+<div class="background-grid" aria-hidden="true"></div>
 
-    <header class="site-header">
-      <div class="brand">
-        <img src="static/logo.png" alt="CeProMin logo" class="brand-logo" />
-      </div>
-      <div class="header-meta">
-        <span id="currentDate" class="chip"></span>
-        <span class="chip chip-alert" data-i18n="header-chip">Strategic Foresight Portal</span>
-        <button id="langToggle" class="lang-toggle" title="Switch language">ES</button>
-      </div>
-    </header>
+<header class="site-header">
+  <div class="brand">
+    <img src="static/logo.png" alt="CeProMin logo" class="brand-logo" />
+  </div>
+  <div class="header-meta">
+    <span id="currentDate" class="chip"></span>
+    <span class="chip chip-alert" data-i18n="header-chip">Strategic Foresight Portal</span>
+    <button id="langToggle" class="lang-toggle" title="Switch language">ES</button>
+  </div>
+</header>
 
-    <main>
-      <section class="hero">
-        <p class="eyebrow" data-i18n="eyebrow">Argentine Mining Strategic Foresight Center</p>
-        <h1 data-i18n="hero-h1">Global markets define mineral demand. Strategy defines what Argentina should mine.</h1>
-        <p data-i18n="hero-p">
-          CeProMin is designed as the intelligence architecture that translates demand
-          signals from global value chains into differentiated mineral policy, investment
-          priorities, and coordinated federal execution.
-        </p>
-      </section>
+<main>
+  <section class="hero">
+    <p class="eyebrow" data-i18n="eyebrow">Argentine Mining Strategic Foresight Center</p>
+    <h1 data-i18n="hero-h1">Global markets define mineral demand. Strategy defines what Argentina should mine.</h1>
+    <p data-i18n="hero-p">
+      CeProMin is designed as the intelligence architecture that translates demand
+      signals from global value chains into differentiated mineral policy, investment
+      priorities, and coordinated federal execution.
+    </p>
+  </section>
 
-      <section class="ticker" aria-label="Strategic priorities ticker">
-        <div class="ticker-track" id="tickerTrack"></div>
-      </section>
+  <section class="ticker" aria-label="Strategic priorities ticker">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </section>
 
-      <section class="developments">
-        <div class="section-title-row">
-          <h2 data-i18n="strategic-heading">Strategic Logic</h2>
-          <span class="subtle" data-i18n="strategic-sub">Demand-led mining model</span>
-        </div>
-        <div id="flowSteps" class="flow-grid" aria-live="polite"></div>
-      </section>
+  <section class="developments">
+    <div class="section-title-row">
+      <h2 data-i18n="strategic-heading">Strategic Logic</h2>
+      <span class="subtle" data-i18n="strategic-sub">Demand-led mining model</span>
+    </div>
+    <div id="flowSteps" class="flow-grid" aria-live="polite"></div>
+  </section>
 
-      <section class="developments">
-        <div class="section-title-row">
-          <h2 data-i18n="demand-heading">Market Demand to Mineral Priorities</h2>
-          <span class="subtle" data-i18n="demand-sub">Filter by demand cluster</span>
-        </div>
-
-        <section class="news-controls" aria-label="Filter demand clusters">
-          <button class="filter-btn active" data-filter="all" data-i18n="filter-all">All clusters</button>
-          <button class="filter-btn" data-filter="electrification" data-i18n="filter-electrification">Electrification</button>
-          <button class="filter-btn" data-filter="technology" data-i18n="filter-technology">Technology and defense</button>
-          <button class="filter-btn" data-filter="financial" data-i18n="filter-financial">Financial demand</button>
-          <button class="filter-btn" data-filter="agrochemical" data-i18n="filter-agrochemical">Agrochemical demand</button>
-        </section>
-
-        <div class="news-grid" id="newsGrid" aria-live="polite"></div>
-      </section>
-
-      <section class="developments">
-        <div class="section-title-row">
-          <h2 data-i18n="gaps-heading">Strategic Gaps CeProMin Addresses</h2>
-          <span class="subtle" data-i18n="gaps-sub">Current constraints in Argentina</span>
-        </div>
-        <ul id="diagnosisList" class="developments-list"></ul>
-      </section>
-
-      <section class="framework-grid" aria-label="Core strategic framework">
-        <article class="framework-card">
-          <h3 data-i18n="pillar-measure">Measure</h3>
-          <ul id="functionsList" class="flat-list"></ul>
-        </article>
-        <article class="framework-card">
-          <h3 data-i18n="pillar-anticipate">Anticipate</h3>
-          <ul id="impactList" class="flat-list"></ul>
-        </article>
-        <article class="framework-card">
-          <h3 data-i18n="pillar-guide">Guide</h3>
-          <ul id="architectureList" class="flat-list"></ul>
-        </article>
-      </section>
-
-      <section class="framework-grid" aria-label="Execution and outcomes framework">
-        <article class="framework-card">
-          <h3 data-i18n="outcomes-heading">Expected Strategic Impact</h3>
-          <ul id="outcomesList" class="flat-list"></ul>
-        </article>
-        <article class="framework-card">
-          <h3 data-i18n="governance-heading">Institutional Execution Model</h3>
-          <ul id="governanceList" class="flat-list"></ul>
-        </article>
-      </section>
-
-      <section class="developments fusion-section">
-        <div class="section-title-row">
-          <h2 data-i18n="fusion-heading">Fusion Energy Research</h2>
-          <span class="subtle" data-i18n="fusion-sub">AI foundation models for plasma science</span>
-        </div>
-        <p class="fusion-intro" data-i18n="fusion-intro">IBM Research, UKAEA, and STFC Hartree Centre built TokaMind, the first AI foundation model for fusion plasma analysis. Fusion's commercial path will reshape global demand for lithium, tungsten, beryllium, and rare earth minerals — a direct strategic signal for Argentina's mineral priorities.</p>
-        <div class="fusion-grid">
-          <a class="fusion-card" href="https://github.com/UKAEA-IBM-STFC-Fusion-FMs/tokamind" target="_blank" rel="noopener noreferrer" aria-label="TokaMind on GitHub">
-            <span class="fusion-card__label" data-i18n="fusion-tokamind-label">Foundation Model</span>
-            <h3 class="fusion-card__name">TokaMind</h3>
-            <p class="fusion-card__desc" data-i18n="fusion-tokamind-desc">9M-parameter model trained on MAST tokamak data. Harmonises 40 sensor signals, outperforms task-specific models, and recovers corrupted readings via masked pre-training.</p>
-            <span class="fusion-card__cta" aria-hidden="true">github.com / UKAEA-IBM-STFC-Fusion-FMs / tokamind →</span>
-          </a>
-          <a class="fusion-card" href="https://github.com/UKAEA-IBM-STFC-Fusion-FMs/tokamark" target="_blank" rel="noopener noreferrer" aria-label="TokaMark on GitHub">
-            <span class="fusion-card__label" data-i18n="fusion-tokamark-label">Benchmark Suite</span>
-            <h3 class="fusion-card__name">TokaMark</h3>
-            <p class="fusion-card__desc" data-i18n="fusion-tokamark-desc">14-task benchmark suite for plasma-analysis AI. TokaMind outperforms all task-specific baselines across the full suite.</p>
-            <span class="fusion-card__cta" aria-hidden="true">github.com / UKAEA-IBM-STFC-Fusion-FMs / tokamark →</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="developments">
-        <div class="section-title-row">
-          <h2 data-i18n="director-heading">Programme Director</h2>
-          <span class="subtle" data-i18n="director-sub">Leadership profile</span>
-        </div>
-        <p id="directorProfile" class="director-profile"></p>
-      </section>
-
-      <section class="developments events-section">
-        <div class="section-title-row">
-          <div class="live-news-heading">
-            <h2 data-i18n="events-heading">Upcoming Mining Events</h2>
-            <span class="live-badge" aria-label="Live feed">LIVE</span>
-          </div>
-          <span class="subtle" id="eventsTimestamp"></span>
-        </div>
-        <iframe
-          src="https://lalolalo1234.github.io/CeProMinDB"
-          class="events-iframe"
-          title="Upcoming Mining Events"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-        ></iframe>
-      </section>
-      <section class="developments live-news-section">
-        <div class="section-title-row">
-          <div class="live-news-heading">
-            <h2 data-i18n="news-heading">Live Mining News</h2>
-            <span class="live-badge" aria-label="Live feed">LIVE</span>
-          </div>
-          <span class="subtle" id="newsFeedTimestamp"></span>
-        </div>
-          <div id="liveFeed" class="live-feed" aria-live="polite" aria-atomic="false">
-            <div class="feed-loading">
-              <span class="feed-spinner" aria-hidden="true"></span>
-              <span data-i18n="news-loading">Loading latest mining news&hellip;</span>
-            </div>
-          </div>
-          <div id="feedPagination" class="feed-pagination" aria-label="Feed pagination"></div>
-      </section>
-    </main>
-
-
-    <footer class="site-footer">
-      <p data-i18n="footer">
-        CeProMin concept portal aligned to a demand-led strategic model: markets generate
-        mineral demand, and mineral demand should shape extraction strategy and policy.
-      </p>
-    </footer>
-
-    <div id="pdfModal" class="pdf-modal" role="dialog" aria-modal="true" aria-label="PDF viewer">
-      <div class="pdf-modal__container">
-        <button id="pdfModalClose" class="pdf-modal__close" aria-label="Close">&times;</button>
-        <iframe id="pdfModalFrame" class="pdf-modal__frame" title="PDF document"></iframe>
-      </div>
+  <section class="developments">
+    <div class="section-title-row">
+      <h2 data-i18n="demand-heading">Market Demand to Mineral Priorities</h2>
+      <span class="subtle" data-i18n="demand-sub">Filter by demand cluster</span>
     </div>
 
-    <script src="static/script.js"></script>
-  </body>
+    <section class="news-controls" aria-label="Filter demand clusters">
+      <button class="filter-btn active" data-filter="all" data-i18n="filter-all">All clusters</button>
+      <button class="filter-btn" data-filter="electrification" data-i18n="filter-electrification">Electrification</button>
+      <button class="filter-btn" data-filter="technology" data-i18n="filter-technology">Technology and defense</button>
+      <button class="filter-btn" data-filter="financial" data-i18n="filter-financial">Financial demand</button>
+      <button class="filter-btn" data-filter="agrochemical" data-i18n="filter-agrochemical">Agrochemical demand</button>
+    </section>
+
+    <div class="news-grid" id="newsGrid" aria-live="polite"></div>
+  </section>
+
+  <section class="developments">
+    <div class="section-title-row">
+      <h2 data-i18n="foresight-heading">Mining Demand Foresight — Copper, Lithium &amp; Rare Earths</h2>
+      <span class="subtle" data-i18n="foresight-sub">2030 / 2040 / 2050 demand outlook</span>
+    </div>
+    <p class="fusion-intro" data-i18n="foresight-intro">Internal foresight work quantifying global demand for the three minerals central to Argentina's mining strategy, benchmarked against IEA, S&amp;P Global, Wood Mackenzie, ICSG, USGS and Adamas Intelligence, with source, year and scenario tagged on every figure.</p>
+
+    <div class="foresight-table-wrap">
+      <table class="foresight-table">
+        <thead>
+          <tr>
+            <th data-i18n="foresight-th-mineral">Mineral</th>
+            <th data-i18n="foresight-th-base">Base demand (2024-25)</th>
+            <th data-i18n="foresight-th-2040">2040 range</th>
+            <th data-i18n="foresight-th-multiple">Growth multiple</th>
+            <th data-i18n="foresight-th-driver">Best-quantified driver</th>
+          </tr>
+        </thead>
+        <tbody id="foresightTableBody"></tbody>
+      </table>
+    </div>
+
+    <div id="foresightMineralsGrid" class="framework-grid foresight-grid-spaced"></div>
+
+    <h3 class="foresight-subheading" data-i18n="foresight-cross-heading">Cross-cutting signals</h3>
+    <ul id="foresightCrossList" class="developments-list"></ul>
+
+    <div class="framework-grid foresight-grid-spaced">
+      <article class="framework-card">
+        <h3 data-i18n="foresight-ar-lithium-heading">Argentina — Lithium: producing &amp; pipeline</h3>
+        <ul id="foresightLithiumList" class="flat-list"></ul>
+      </article>
+      <article class="framework-card">
+        <h3 data-i18n="foresight-ar-ree-heading">Argentina — Rare Earths: exploration stage</h3>
+        <ul id="foresightReeList" class="flat-list"></ul>
+      </article>
+    </div>
+
+    <p class="foresight-source" data-i18n="foresight-sources">Sources: IEA Global Critical Minerals Outlook 2025/2026, S&amp;P Global, Wood Mackenzie, ICSG, USGS Mineral Commodity Summaries 2026, Adamas Intelligence, Rio Tinto / Lithium Argentina / Zijin company filings, Segemar, Panorama Minero, Buenos Aires Herald (2025-2026).</p>
+  </section>
+
+  <section class="developments">
+    <div class="section-title-row">
+      <h2 data-i18n="gaps-heading">Strategic Gaps CeProMin Addresses</h2>
+      <span class="subtle" data-i18n="gaps-sub">Current constraints in Argentina</span>
+    </div>
+    <ul id="diagnosisList" class="developments-list"></ul>
+  </section>
+
+  <section class="framework-grid" aria-label="Core strategic framework">
+    <article class="framework-card">
+      <h3 data-i18n="pillar-measure">Measure</h3>
+      <ul id="functionsList" class="flat-list"></ul>
+    </article>
+    <article class="framework-card">
+      <h3 data-i18n="pillar-anticipate">Anticipate</h3>
+      <ul id="impactList" class="flat-list"></ul>
+    </article>
+    <article class="framework-card">
+      <h3 data-i18n="pillar-guide">Guide</h3>
+      <ul id="architectureList" class="flat-list"></ul>
+    </article>
+  </section>
+
+  <section class="framework-grid" aria-label="Execution and outcomes framework">
+    <article class="framework-card">
+      <h3 data-i18n="outcomes-heading">Expected Strategic Impact</h3>
+      <ul id="outcomesList" class="flat-list"></ul>
+    </article>
+    <article class="framework-card">
+      <h3 data-i18n="governance-heading">Institutional Execution Model</h3>
+      <ul id="governanceList" class="flat-list"></ul>
+    </article>
+  </section>
+
+  <section class="developments fusion-section">
+    <div class="section-title-row">
+      <h2 data-i18n="fusion-heading">Fusion Energy Research</h2>
+      <span class="subtle" data-i18n="fusion-sub">AI foundation models for plasma science</span>
+    </div>
+    <p class="fusion-intro" data-i18n="fusion-intro">IBM Research, UKAEA, and STFC Hartree Centre built TokaMind, the first AI foundation model for fusion plasma analysis. Fusion's commercial path will reshape global demand for lithium, tungsten, beryllium, and rare earth minerals — a direct strategic signal for Argentina's mineral priorities.</p>
+    <div class="fusion-grid">
+      <a class="fusion-card" href="https://github.com/UKAEA-IBM-STFC-Fusion-FMs/tokamind" target="_blank" rel="noopener noreferrer" aria-label="TokaMind on GitHub">
+        <span class="fusion-card__label" data-i18n="fusion-tokamind-label">Foundation Model</span>
+        <h3 class="fusion-card__name">TokaMind</h3>
+        <p class="fusion-card__desc" data-i18n="fusion-tokamind-desc">9M-parameter model trained on MAST tokamak data. Harmonises 40 sensor signals, outperforms task-specific models, and recovers corrupted readings via masked pre-training.</p>
+        <span class="fusion-card__cta" aria-hidden="true">github.com / UKAEA-IBM-STFC-Fusion-FMs / tokamind →</span>
+      </a>
+      <a class="fusion-card" href="https://github.com/UKAEA-IBM-STFC-Fusion-FMs/tokamark" target="_blank" rel="noopener noreferrer" aria-label="TokaMark on GitHub">
+        <span class="fusion-card__label" data-i18n="fusion-tokamark-label">Benchmark Suite</span>
+        <h3 class="fusion-card__name">TokaMark</h3>
+        <p class="fusion-card__desc" data-i18n="fusion-tokamark-desc">14-task benchmark suite for plasma-analysis AI. TokaMind outperforms all task-specific baselines across the full suite.</p>
+        <span class="fusion-card__cta" aria-hidden="true">github.com / UKAEA-IBM-STFC-Fusion-FMs / tokamark →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="developments">
+    <div class="section-title-row">
+      <h2 data-i18n="director-heading">Programme Director</h2>
+      <span class="subtle" data-i18n="director-sub">Leadership profile</span>
+    </div>
+    <p id="directorProfile" class="director-profile"></p>
+  </section>
+
+  <section class="developments events-section">
+    <div class="section-title-row">
+      <div class="live-news-heading">
+        <h2 data-i18n="events-heading">Upcoming Mining Events</h2>
+        <span class="live-badge" aria-label="Live feed">LIVE</span>
+      </div>
+      <span class="subtle" id="eventsTimestamp"></span>
+    </div>
+    <iframe
+      src="https://lalolalo1234.github.io/CeProMinDB"
+      class="events-iframe"
+      title="Upcoming Mining Events"
+      loading="lazy"
+      referrerpolicy="no-referrer"
+    ></iframe>
+  </section>
+  <section class="developments live-news-section">
+    <div class="section-title-row">
+      <div class="live-news-heading">
+        <h2 data-i18n="news-heading">Live Mining News</h2>
+        <span class="live-badge" aria-label="Live feed">LIVE</span>
+      </div>
+      <span class="subtle" id="newsFeedTimestamp"></span>
+    </div>
+    <div id="liveFeed" class="live-feed" aria-live="polite" aria-atomic="false">
+      <div class="feed-loading">
+        <span class="feed-spinner" aria-hidden="true"></span>
+        <span data-i18n="news-loading">Loading latest mining news&hellip;</span>
+      </div>
+    </div>
+    <div id="feedPagination" class="feed-pagination" aria-label="Feed pagination"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p data-i18n="footer">
+    CeProMin concept portal aligned to a demand-led strategic model: markets generate
+    mineral demand, and mineral demand should shape extraction strategy and policy.
+  </p>
+</footer>
+
+<div id="pdfModal" class="pdf-modal" role="dialog" aria-modal="true" aria-label="PDF viewer">
+  <div class="pdf-modal__container">
+    <button id="pdfModalClose" class="pdf-modal__close" aria-label="Close">&times;</button>
+    <iframe id="pdfModalFrame" class="pdf-modal__frame" title="PDF document"></iframe>
+  </div>
+</div>
+
+<script src="static/script.js"></script>
+</body>
 </html>
