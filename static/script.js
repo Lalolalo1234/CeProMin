@@ -348,7 +348,9 @@ const foresightLithium = [
   "Near-term (2026–2027): Sal de Vida Phase 1 (15,000 t/yr) and Fénix 1B (10,000 t/yr), both Catamarca; Sal de los Ángeles (Salta, 10,000 t/yr).",
   "Medium-term (2028–2029): Pozuelos-Pastos Grandes JV (up to 150,000 t/yr capacity), Rincón at full scale.",
   "Longer term (2030–2033): Kachi, Candelas, HM South and further expansion phases.",
-  "Government target: 15 plants and ~650,000 t/yr installed capacity by 2035 — enough for Argentina to reach the world's top 3 producers."
+  "Government target: 15 plants and ~650,000 t/yr installed capacity by 2035 — enough for Argentina to reach the world's top 3 producers.",
+  "Full pipeline breakdown (56 projects, Secretaría de Minería 2026): 7 in production, 5 under construction, 2 in feasibility, 3 in pre-feasibility, 4 in PEA, 27 in advanced exploration, 8 in early exploration. Total identified resources: 216 Mt LCE, including 23 Mt LCE in proven salar reserves.",
+  "Argentina is the world's 4th largest lithium producer, with 11.9% of global reserves; production grew 56-67% year-on-year in 2025 depending on source (Secretaría de Minería vs. USGS) — 116,000 t LCE produced in 2025 per official statistics."
 ];
 
 const foresightRee = [
@@ -512,7 +514,9 @@ const foresightLithium_es = [
   "Corto plazo (2026–2027): Sal de Vida Fase 1 (15.000 t/año) y Fénix 1B (10.000 t/año), ambos en Catamarca; Sal de los Ángeles (Salta, 10.000 t/año).",
   "Mediano plazo (2028–2029): JV Pozuelos-Pastos Grandes (hasta 150.000 t/año de capacidad), Rincón a escala plena.",
   "Más largo plazo (2030–2033): Kachi, Candelas, HM South y nuevas fases de expansión.",
-  "Meta oficial: 15 plantas y ~650.000 t/año de capacidad instalada hacia 2035 — suficiente para ubicar a Argentina entre los 3 principales productores mundiales."
+  "Meta oficial: 15 plantas y ~650.000 t/año de capacidad instalada hacia 2035 — suficiente para ubicar a Argentina entre los 3 principales productores mundiales.",
+  "Desglose completo del pipeline (56 proyectos, Secretaría de Minería 2026): 7 en producción, 5 en construcción, 2 en factibilidad, 3 en prefactibilidad, 4 en PEA, 27 en exploración avanzada, 8 en exploración inicial. Recursos totales identificados: 216 Mt LCE, incluyendo 23 Mt LCE en reservas probadas de salares.",
+  "Argentina es el 4° productor mundial de litio, con 11,9% de las reservas globales; la producción creció entre 56% y 67% interanual en 2025 según la fuente (Secretaría de Minería vs. USGS) — 116.000 t LCE producidas en 2025 según estadísticas oficiales."
 ];
 
 const foresightRee_es = [
